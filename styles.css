@@ -1,0 +1,199 @@
+/* General Styling */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #0a0a2a;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    color: white;
+}
+
+#game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+}
+
+canvas {
+    background-color: #111133;
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+    border-radius: 10px;
+}
+
+#score, #lives, #combo-display, #level-display, #fps {
+    position: absolute;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+#score { top: 20px; left: 20px; }
+#lives { top: 20px; right: 20px; }
+#combo-display { top: 60px; left: 20px; color: #ffaa00; opacity: 0; transition: opacity 0.3s; }
+#level-display { top: 20px; left: 50%; transform: translateX(-50%); }
+#fps { bottom: 10px; right: 10px; font-size: 12px; color: rgba(255,255,255,0.5); }
+
+#start-screen, #game-over, #level-complete, #high-scores {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#start-screen h1 {
+    font-size: 48px;
+    text-shadow: 0 0 15px #00ffff;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #00ffff; }
+    to { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff; }
+}
+
+#instructions {
+    margin: 20px 0;
+    text-align: center;
+    max-width: 500px;
+    line-height: 1.5;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    background: linear-gradient(to bottom, #4444ff, #2222aa);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #5555ff, #3333bb);
+    transform: scale(1.05);
+}
+
+/* Theme Selectors */
+#theme-selector {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 110;
+}
+
+.theme-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.theme-btn:hover { transform: scale(1.2); }
+.theme-btn.active { border: 2px solid gold; box-shadow: 0 0 10px gold; }
+
+#standard-theme { background: linear-gradient(to bottom right, #0a0a2a, #191970); }
+#neon-theme { background: linear-gradient(to bottom right, #000, #440044); }
+#retro-theme { background: linear-gradient(to bottom right, #221, #442); }
+
+/* Menu Button */
+#menu-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 110;
+}
+#menu-btn::before {
+    content: "⚙️";
+    font-size: 20px;
+}
+
+#game-menu {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 10px;
+    display: none;
+    z-index: 110;
+}
+
+.menu-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.menu-item:hover { background-color: rgba(255,255,255,0.1); }
+
+#pause-indicator {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 36px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px 40px;
+    border-radius: 10px;
+    display: none;
+    z-index: 50;
+}
+
+#screen-flash {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: white;
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 10px;
+    transition: opacity 0.1s;
+}
+
+#mobile-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 30;
+}
+
+.mobile-btn {
+    width: 40%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+}
