@@ -2443,21 +2443,20 @@ id="right-btn">  ▶  </div> </div> /* [cite: 251] */
                 console.error("Failed to initialize game!"); /* [cite: 92] */ /* [cite: 1158] */
             } /* [cite: 93] */
         }); /* [cite: 1159] */
- // Add a fail-safe direct click handler for buttons
-        document.addEventListener("click", function(e) { /* [cite: 93] */
-            if (e.target && e.target.id === "start-button") { /* [cite: 93] */
-                debug("Start button clicked via global handler"); /* [cite: 93] */
-                startGame(); /* [cite: 93] */
-
-  } else if (e.target && e.target.id === "restart-button") { /* [cite: 94] */ /* [cite: 1160] */
-                debug("Restart button clicked via global handler"); /* [cite: 94] */
-                restartGame(); /* [cite: 94] */
-            } else if (e.target && e.target.id === "next-level-button") { /* [cite: 94] */
-                debug("Next level"); /* [cite: 1161] */
- button clicked via global handler"); /* [cite: 94] */
-                nextLevel(); /* [cite: 94] */
-            } /* [cite: 95] */
-        }); /* [cite: 1162] */
+  // Add a fail-safe direct click handler for buttons
+        document.addEventListener("click", function(e) {
+            if (e.target && e.target.id === "start-button") {
+                debug("Start button clicked via global handler");
+                startGame();
+            } else if (e.target && e.target.id === "restart-button") {
+                debug("Restart button clicked via global handler");
+                restartGame();
+            } else if (e.target && e.target.id === "next-level-button") {
+                // CORRECTED LINE BELOW
+                debug("Next level button clicked via global handler");
+                nextLevel();
+            }
+        });
 
     </script>
 </body>
