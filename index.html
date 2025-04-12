@@ -314,7 +314,7 @@
             z-index: 110;
         }
         #menu-btn::before {
-            content: "   ⚙️   ";
+            content: "    ⚙️    ";
             font-size: 20px;
         }
         #game-menu {
@@ -355,53 +355,61 @@
         <div id="level-display">Level 1</div>
         <div id="fps">FPS: 0</div>
         <div id="debug-panel"></div>
-
         <div id="screen-flash"></div>
-        <div id="menu-btn"></div> <div id="game-menu">
-            <div class="menu-item" id="toggle-sound">Sound: ON</div>
-            <div class="menu-item" id="toggle-music">Music: ON</div>
-            <div class="menu-item" id="show-high-scores">High Scores</div>
-            <div class="menu-item" id="toggle-fullscreen">Fullscreen</div>
-            <div class="menu-item" id="restart-from-menu">Restart</div>
-        </div>
-
-        <div id="theme-selector"> <div class="theme-btn active" id="standard-theme" title="Standard Theme"></div>
+        <div id="menu-btn"></div>
+        <div id="game-menu">
+             <div class="menu-item" id="toggle-sound">Sound: ON</div>
+             <div class="menu-item" id="toggle-music">Music: ON</div>
+             <div class="menu-item" id="show-high-scores">High Scores</div>
+             <div class="menu-item" id="toggle-fullscreen">Fullscreen</div>
+             <div class="menu-item" id="restart-from-menu">Restart</div>
+         </div>
+        <div id="theme-selector">
+            <div class="theme-btn active" id="standard-theme" title="Standard Theme"></div>
             <div class="theme-btn" id="neon-theme" title="Neon Theme"></div>
             <div class="theme-btn" id="retro-theme" title="Retro Theme"></div>
         </div>
         <div id="start-screen">
             <h1>BRICK BREAKER</h1>
-            <div id="instructions"> <p>Use your mouse or arrow keys to move the paddle and bounce the ball to break all bricks.</p>
+            <div id="instructions">
+                <p>Use your mouse or arrow keys to move the paddle and bounce the ball to break all bricks.</p>
                 <p>Don't let the ball fall off the bottom of the screen!</p>
-                <p>Some bricks need multiple hits to break!</p> <p>Watch for special power-ups!</p> <p>Press 'P' to pause the game at any time.</p>
-            </div> <button id="start-button">START GAME</button>
+                <p>Some bricks need multiple hits to break!</p>
+                <p>Watch for special power-ups!</p>
+                <p>Press 'P' to pause the game at any time.</p>
+            </div>
+            <button id="start-button">START GAME</button>
             <button id="high-scores-button">HIGH SCORES</button>
         </div>
         <div id="high-scores">
-            <h2>HIGH SCORES</h2> <div id="scores-list">
-                </div>
-            <button id="back-button">BACK</button>
-        </div>
+             <h2>HIGH SCORES</h2>
+             <div id="scores-list">
+                 </div>
+             <button id="back-button">BACK</button>
+         </div>
         <div id="game-over">
             <h2>GAME OVER</h2>
-<div id="final-score"></div>
+            <div id="final-score"></div>
             <div id="game-stats"></div>
             <div id="new-high-score" style="color: gold; font-size: 24px; margin: 10px 0; display: none;">
                 NEW HIGH SCORE!
-            </div> <input type="text" id="name-input" placeholder="Enter your name" style="display: none;">
+            </div>
+            <input type="text" id="name-input" placeholder="Enter your name" style="display: none;">
             <button id="save-score-button" style="display: none;">SAVE SCORE</button>
             <button id="restart-button">PLAY AGAIN</button>
             <button id="show-scores-button">HIGH SCORES</button>
         </div>
         <div id="level-complete">
-            <h2>LEVEL COMPLETE!</h2> <div id="level-score"></div>
+            <h2>LEVEL COMPLETE!</h2>
+            <div id="level-score"></div>
             <div id="level-stats"></div>
             <button id="next-level-button">NEXT LEVEL</button>
         </div>
         <div id="pause-indicator">PAUSED</div>
         <div id="mobile-controls">
-            <div class="mobile-btn" id="left-btn">   ◀   </div>
-            <div class="mobile-btn" id="right-btn">   ▶   </div> </div>
+            <div class="mobile-btn" id="left-btn">    ◀    </div>
+            <div class="mobile-btn" id="right-btn">    ▶    </div>
+        </div>
     </div>
     <script>
         // Debug mode - set to false for production
@@ -425,8 +433,8 @@
         let paddleX = 0;
         let ballX = 0;
         let ballY = 0;
-        let ballSpeedX = 4;
-        let ballSpeedY = -4;
+        let ballSpeedX = 3;
+        let ballSpeedY = -3;
         let rightPressed = false;
         let leftPressed = false;
         let score = 0;
@@ -459,28 +467,28 @@
                 background: {
                     start: '#000033',
                     end: '#000022'
-                },
+                 },
                 paddle: {
                     start: '#4444ff',
                     end: '#2222aa'
                 },
                 ball: {
-                    start: '#ffffff',
-                    end: '#aaaaff'
+                     start: '#ffffff',
+                     end: '#aaaaff'
                 },
                 brick: {
                     0: '#FF5555', // Red
-                    1: '#FFAA55', // Orange
+                     1: '#FFAA55', // Orange
                     2: '#FFFF55', // Yellow
                     3: '#55FF55', // Green
                     4: '#55FFFF'  // Cyan
-                },
+                 },
                 particles: {
                     paddle: '#4444ff',
                     wall: '#ffffff'
                 },
                 screen: {
-                    bg: 'rgba(10, 10, 42, 0.9)'
+                     bg: 'rgba(10, 10, 42, 0.9)'
                 }
             },
             neon: {
@@ -491,7 +499,7 @@
                 paddle: {
                     start: '#ff00ff',
                     end: '#aa00aa'
-                },
+                 },
                 ball: {
                     start: '#ffffff',
                     end: '#ff88ff'
@@ -501,49 +509,49 @@
                     1: '#ff3300', // Red-Orange
                     2: '#ffcc00', // Yellow
                     3: '#33ff00', // Green
-                    4: '#00ffcc'  // Cyan
+                     4: '#00ffcc'  // Cyan
                 },
                 particles: {
                     paddle: '#ff00ff',
                     wall: '#00ffff'
-                },
+                 },
                 screen: {
                     bg: 'rgba(17, 0, 17, 0.9)'
                 }
             },
             retro: {
-                background: {
+                 background: {
                     start: '#222211',
                     end: '#111100'
                 },
                 paddle: {
-                    start: '#cccc44',
-                    end: '#aaaa22'
+                     start: '#cccc44',
+                     end: '#aaaa22'
                 },
                 ball: {
                     start: '#ffffff',
-                    end: '#eeeebb'
+                     end: '#eeeebb'
                 },
                 brick: {
                     0: '#cc4400', // Dark Orange
                     1: '#ccaa00', // Gold
-                    2: '#44cc00', // Lime
+                     2: '#44cc00', // Lime
                     3: '#00ccaa', // Teal
                     4: '#0044cc'  // Blue
                 },
                 particles: {
-                    paddle: '#cccc44',
-                    wall: '#ffffff'
+                     paddle: '#cccc44',
+                     wall: '#ffffff'
                 },
                 screen: {
                     bg: 'rgba(34, 34, 17, 0.9)'
-                }
+                 }
             }
         };
         // Power-up variables
         const paddleWidthNormal = PADDLE_WIDTH;
         const paddleWidthWide = PADDLE_WIDTH * 1.5;
-        const ballSpeedNormal = 4;
+        const ballSpeedNormal = 3;
         const ballSpeedSlow = 2;
         let powerupActive = false;
         let powerupTimer = 0;
@@ -600,8 +608,7 @@
         }
         // Check if score is a high score
         function isHighScore(score) {
-            return highScores.length < 10 ||
-                   score > highScores[highScores.length - 1].score;
+            return highScores.length < 10 || score > highScores[highScores.length - 1].score;
         }
         // Add a new high score
         function addHighScore(name, score, level) {
@@ -689,13 +696,10 @@
                 bricks[c] = [];
                 for (let r = 0; r < BRICK_ROWS; r++) {
                     // Determine if this should be a special brick (more common in higher levels)
-                    let specialChance = 0.05 + (level - 1) * 0.05;
-                    // 5% base + 5% per level
+                    let specialChance = 0.05 + (level - 1) * 0.05; // 5% base + 5% per level
                     let isSpecial = Math.random() < specialChance;
-                    let hitPoints = isSpecial ?
- 2 + Math.floor(Math.random() * level) : 1;
-                    hitPoints = Math.min(hitPoints, 3);
-                    // Cap at 3 hits
+                    let hitPoints = isSpecial ? 2 + Math.floor(Math.random() * level) : 1;
+                    hitPoints = Math.min(hitPoints, 3); // Cap at 3 hits
                     bricks[c][r] = {
                         x: 0,
                         y: 0,
@@ -720,8 +724,7 @@
                 let movingRow = Math.floor(Math.random() * BRICK_ROWS);
                 for (let c = 0; c < BRICK_COLUMNS; c++) {
                     bricks[c][movingRow].moving = true;
-                    bricks[c][movingRow].moveDir = c % 2 === 0 ?
- 1 : -1;
+                    bricks[c][movingRow].moveDir = c % 2 === 0 ? 1 : -1;
                     bricks[c][movingRow].moveSpeed = 0.5 + (level - 3) * 0.2;
                 }
                 debug(`Added moving bricks in row ${movingRow + 1}`);
@@ -732,24 +735,23 @@
             balls.forEach(ball => {
                 ctx.beginPath();
                 ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-                // Create gradient for ball
+                 // Create gradient for ball
                 let ballGradient = ctx.createRadialGradient(
                     ball.x - ball.radius / 3, ball.y - ball.radius / 3,
                     0,
                     ball.x, ball.y,
-                    ball.radius
+                     ball.radius
                 );
                 ballGradient.addColorStop(0, themes[currentTheme].ball.start);
                 ballGradient.addColorStop(1, themes[currentTheme].ball.end);
                 ctx.fillStyle = ballGradient;
-                ctx.fill();
+                 ctx.fill();
                 ctx.closePath();
-
                 // Ball glow effect
                 ctx.beginPath();
                 ctx.arc(ball.x, ball.y, ball.radius + 3, 0, Math.PI * 2);
                 ctx.strokeStyle = "rgba(100, 100, 255, 0.3)";
-                ctx.lineWidth = 2;
+                 ctx.lineWidth = 2;
                 ctx.stroke();
                 ctx.closePath();
                 // Add fireball effect
@@ -760,7 +762,7 @@
                     let flameGradient = ctx.createRadialGradient(
                         ball.x, ball.y,
                         ball.radius,
-                        ball.x, ball.y,
+                         ball.x, ball.y,
                         ball.radius + 5
                     );
                     flameGradient.addColorStop(0, "rgba(255, 100, 0, 0.8)");
@@ -785,7 +787,7 @@
             if (ctx.roundRect) {
                 ctx.roundRect(
                     paddleX, canvas.height - PADDLE_HEIGHT,
-                    PADDLE_WIDTH, PADDLE_HEIGHT,
+                     PADDLE_WIDTH, PADDLE_HEIGHT,
                     [5, 5, 0, 0]
                 );
             } else {
@@ -793,7 +795,7 @@
                 ctx.rect(
                     paddleX, canvas.height - PADDLE_HEIGHT,
                     PADDLE_WIDTH, PADDLE_HEIGHT
-                );
+                 );
             }
             ctx.fillStyle = paddleGradient;
             ctx.fill();
@@ -804,7 +806,7 @@
                     paddleX + 5, canvas.height - PADDLE_HEIGHT + 3,
                     PADDLE_WIDTH - 10, PADDLE_HEIGHT / 3,
                     [3, 3, 0, 0]
-                );
+                 );
             } else {
                 ctx.rect(
                     paddleX + 5, canvas.height - PADDLE_HEIGHT + 3,
@@ -820,7 +822,7 @@
                     paddleX - 2, canvas.height - PADDLE_HEIGHT - 2,
                     PADDLE_WIDTH + 4, PADDLE_HEIGHT + 2,
                     [7, 7, 0, 0]
-                );
+                 );
             } else {
                 ctx.rect(
                     paddleX - 2, canvas.height - PADDLE_HEIGHT - 2,
@@ -835,12 +837,11 @@
             for (let c = 0; c < BRICK_COLUMNS; c++) {
                 for (let r = 0; r < BRICK_ROWS; r++) {
                     if (bricks[c][r].status > 0) {
-                        let brickX = c * (BRICK_WIDTH + BRICK_PADDING) + BRICK_OFFSET_LEFT;
-                        let brickY = r * (BRICK_HEIGHT + BRICK_PADDING) + BRICK_OFFSET_TOP;
-                        // Update position for moving bricks
+                         let brickX = c * (BRICK_WIDTH + BRICK_PADDING) + BRICK_OFFSET_LEFT;
+                         let brickY = r * (BRICK_HEIGHT + BRICK_PADDING) + BRICK_OFFSET_TOP;
+                         // Update position for moving bricks
                         if (bricks[c][r].moving) {
-                            brickX += Math.sin(gameTime / 1000 * Math.PI) * 20 *
- bricks[c][r].moveDir;
+                            brickX += Math.sin(gameTime / 1000 * Math.PI) * 20 * bricks[c][r].moveDir;
                         }
                         bricks[c][r].x = brickX;
                         bricks[c][r].y = brickY;
@@ -848,8 +849,8 @@
                         let brickGradient = ctx.createLinearGradient(
                             brickX, brickY,
                             brickX, brickY + BRICK_HEIGHT
-                        );
-                        let baseColor = bricks[c][r].color;
+                         );
+                         let baseColor = bricks[c][r].color;
                         // Adjust color based on hit points remaining
                         const hitRatio = bricks[c][r].status / bricks[c][r].maxHits;
                         baseColor = adjustColorBrightness(baseColor, hitRatio * 100);
@@ -863,13 +864,13 @@
                             ctx.roundRect(
                                 brickX, brickY,
                                 BRICK_WIDTH, BRICK_HEIGHT,
-                                5
+                                 5
                             );
                         } else {
                             ctx.rect(
                                 brickX, brickY,
                                 BRICK_WIDTH, BRICK_HEIGHT
-                            );
+                             );
                         }
                         ctx.fillStyle = brickGradient;
                         ctx.fill();
@@ -960,8 +961,7 @@
             } else if (e.key === "d" || e.key === "D") {
                 // Toggle debug mode with 'D' key
                 if (DEBUG_MODE && debugPanel) {
-                    debugPanel.style.display = debugPanel.style.display === "none" ?
-                                              "block" : "none";
+                    debugPanel.style.display = debugPanel.style.display === "none" ? "block" : "none";
                 }
             } else if (e.key === "m" || e.key === "M") {
                 toggleMusic();
@@ -1004,8 +1004,7 @@
             const rightBtn = document.getElementById('right-btn');
             // Helper function to detect if we're on a mobile device
             function isMobileDevice() {
-                return (typeof window.orientation !== "undefined") ||
-                       (navigator.userAgent.indexOf('IEMobile') !== -1);
+                return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
             }
             // Show mobile controls if on a mobile device
             if (isMobileDevice()) {
@@ -1017,7 +1016,7 @@
                 if (leftBtn) {
                     // Handle continuous movement on touch
                     leftBtn.addEventListener('touchstart', function(e) {
-                        leftPressed = true;
+                         leftPressed = true;
                         e.preventDefault();
                     });
                     leftBtn.addEventListener('touchend', function() {
@@ -1028,7 +1027,7 @@
                     rightBtn.addEventListener('touchstart', function(e) {
                         rightPressed = true;
                         e.preventDefault();
-                    });
+                     });
                     rightBtn.addEventListener('touchend', function() {
                         rightPressed = false;
                     });
@@ -1038,8 +1037,7 @@
         function togglePause() {
             if (!gameStarted) return;
             gamePaused = !gamePaused;
-            pauseIndicator.style.display = gamePaused ?
- "block" : "none";
+            pauseIndicator.style.display = gamePaused ? "block" : "none";
             if (!gamePaused) {
                 lastFrameTime = performance.now();
                 requestAnimationFrame(draw);
@@ -1054,8 +1052,7 @@
             soundEnabled = !soundEnabled;
             const soundToggle = document.getElementById('toggle-sound');
             if (soundToggle) {
-                soundToggle.textContent = `Sound: ${soundEnabled ?
-                                           'ON' : 'OFF'}`;
+                soundToggle.textContent = `Sound: ${soundEnabled ? 'ON' : 'OFF'}`;
             }
             debug(`Sound ${soundEnabled ? 'enabled' : 'disabled'}`);
         }
@@ -1063,8 +1060,7 @@
             musicEnabled = !musicEnabled;
             const musicToggle = document.getElementById('toggle-music');
             if (musicToggle) {
-                musicToggle.textContent = `Music: ${musicEnabled ?
-                                           'ON' : 'OFF'}`;
+                musicToggle.textContent = `Music: ${musicEnabled ? 'ON' : 'OFF'}`;
             }
             if (musicEnabled) {
                 playMusic();
@@ -1089,14 +1085,13 @@
             if (!musicEnabled) return;
             try {
                 if (!backgroundMusic) {
-                    const AudioContext = window.AudioContext ||
-                                       window.webkitAudioContext;
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
                     const audioCtx = new AudioContext();
                     backgroundMusic = {
                         context: audioCtx,
                         oscillator: null,
                         gain: null,
-                        playing: false
+                         playing: false
                     };
                     // Create a simple ambient background using multiple oscillators
                     function createAmbience() {
@@ -1104,12 +1099,10 @@
                         const oscillator2 = audioCtx.createOscillator();
                         const gainNode = audioCtx.createGain();
                         oscillator1.type = "sine";
-                        oscillator1.frequency.value = 60 + level * 5;
-                        // Base frequency changes with level
+                        oscillator1.frequency.value = 60 + level * 5; // Base frequency changes with level
                         oscillator2.type = "sine";
                         oscillator2.frequency.value = 90 + level * 7;
-                        gainNode.gain.value = 0.05;
-                        // Very quiet background
+                        gainNode.gain.value = 0.05; // Very quiet background
                         oscillator1.connect(gainNode);
                         oscillator2.connect(gainNode);
                         gainNode.connect(audioCtx.destination);
@@ -1148,7 +1141,7 @@
                 try {
                     if (backgroundMusic.oscillator) {
                         if (Array.isArray(backgroundMusic.oscillator)) {
-                            backgroundMusic.oscillator.forEach(osc => {
+                              backgroundMusic.oscillator.forEach(osc => {
                                 osc.stop();
                             });
                         } else {
@@ -1188,12 +1181,11 @@
                         let b = bricks[c][r];
                         if (b.status > 0) {
                             if (
-                                ball.x > b.x -
- ball.radius &&
-                                ball.x < b.x + BRICK_WIDTH + ball.radius &&
+                                ball.x > b.x - ball.radius &&
+                                 ball.x < b.x + BRICK_WIDTH + ball.radius &&
                                 ball.y > b.y - ball.radius &&
                                 ball.y < b.y + BRICK_HEIGHT + ball.radius
-                            ) {
+                             ) {
                                 // Calculate exact collision point
                                 let hitLeft = ball.x < b.x;
                                 let hitRight = ball.x > b.x + BRICK_WIDTH;
@@ -1207,7 +1199,7 @@
                                 }
                                 // Fireball effect - destroy adjacent bricks
                                 if (ball.fireball) {
-                                    applyFireballEffect(ball.x, ball.y);
+                                     applyFireballEffect(ball.x, ball.y);
                                 }
                                 // Decrease brick hit points
                                 b.status--;
@@ -1215,17 +1207,15 @@
                                 // Update score based on brick type
                                 let pointValue = 10 * level;
                                 if (b.special) {
-                                    pointValue *= 2;
-                                    // Double points for special bricks
+                                    pointValue *= 2; // Double points for special bricks
                                 }
                                 // Add combo bonus
-                                if (comboTimer > 0) {
+                                 if (comboTimer > 0) {
                                     combo++;
                                     if (combo > maxCombo) {
                                         maxCombo = combo;
                                     }
-                                    pointValue *= (1 + combo * 0.1);
-                                    // 10% bonus per combo level
+                                    pointValue *= (1 + combo * 0.1); // 10% bonus per combo level
                                     // Show combo display
                                     comboDisplay.textContent = `Combo x${combo}`;
                                     comboDisplay.style.opacity = "1";
@@ -1248,7 +1238,7 @@
                                 }
                                 // Add screen flash and shake for special bricks
                                 if (b.special && b.status === 0) {
-                                    flashScreen();
+                                     flashScreen();
                                     shakeScreen();
                                 }
                                 playSound('brick');
@@ -1257,18 +1247,18 @@
                                 let maxSpeed = 6 + level;
                                 if (!activePowerupType || activePowerupType !== 'slowBall') {
                                     if (ball.speedX > 0) {
-                                        ball.speedX = Math.min(maxSpeed, 4 * speedMultiplier);
+                                        ball.speedX = Math.min(maxSpeed, 3 * speedMultiplier);
                                     } else {
-                                        ball.speedX = Math.max(-maxSpeed, -4 * speedMultiplier);
+                                        ball.speedX = Math.max(-maxSpeed, -3 * speedMultiplier);
                                     }
                                     if (ball.speedY > 0) {
-                                        ball.speedY = Math.min(maxSpeed, 4 * speedMultiplier);
+                                        ball.speedY = Math.min(maxSpeed, 3 * speedMultiplier);
                                     } else {
-                                        ball.speedY = Math.max(-maxSpeed, -4 * speedMultiplier);
+                                        ball.speedY = Math.max(-maxSpeed, -3 * speedMultiplier);
                                     }
                                 }
                                 // Check if level is complete
-                                if (bricksHit === totalBricks) {
+                                 if (bricksHit === totalBricks) {
                                     levelComplete();
                                 }
                                 // Only process one collision per frame for this ball
@@ -1318,7 +1308,7 @@
                     radius: Math.random() * 4 + 1,
                     color: color,
                     alpha: 1,
-                    life: Math.random() * 40 + 20
+                     life: Math.random() * 40 + 20
                 });
             }
         }
@@ -1361,7 +1351,7 @@
                     frequency: 440,
                     duration: 100,
                     type: 'sine',
-                    volume: 0.1
+                     volume: 0.1
                 };
                 switch(type) {
                     case 'paddle':
@@ -1399,8 +1389,7 @@
                     default:
                         return;
                 }
-                const AudioContext = window.AudioContext ||
-                                   window.webkitAudioContext;
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
                 const context = new AudioContext();
                 const oscillator = context.createOscillator();
                 const gainNode = context.createGain();
@@ -1439,11 +1428,11 @@
         }
         // Power-ups system with expanded options
         const POWERUP_TYPES = [
-            { type: 'extraLife', color: '#FF5555', text: '   ❤️   ', chance: 0.15 },
-            { type: 'widenPaddle', color: '#55FF55', text:'   ⬅️➡️   ', chance: 0.25 },
-            { type: 'slowBall', color: '#5555FF', text: '   🐢   ', chance: 0.25 },
-            { type: 'multiball', color: '#FFAA00', text: '   🔄   ', chance: 0.2 },
-            { type: 'fireball', color: '#FF0000', text: '   🔥   ', chance: 0.15 }
+            { type: 'extraLife', color: '#FF5555', text: '    ❤️    ', chance: 0.15 },
+            { type: 'widenPaddle', color: '#55FF55', text:'    ⬅️➡️    ', chance: 0.25 },
+             { type: 'slowBall', color: '#5555FF', text: '    🐢    ', chance: 0.25 },
+            { type: 'multiball', color: '#FFAA00', text: '    🔄    ', chance: 0.2 },
+            { type: 'fireball', color: '#FF0000', text: '    🔥    ', chance: 0.15 }
         ];
         function createPowerup(x, y) {
             // Calculate total chance pool
@@ -1524,8 +1513,7 @@
                     if (livesDisplay) {
                         livesDisplay.textContent = `Lives: ${lives}`;
                     }
-                    powerupActive = false;
-                    // This power-up has immediate effect
+                    powerupActive = false; // This power-up has immediate effect
                     break;
                 case 'widenPaddle':
                     PADDLE_WIDTH = paddleWidthWide;
@@ -1546,8 +1534,7 @@
                         const mainBall = balls[0];
                         // Create two new balls at slightly different angles
                         for (let i = 0; i < 2; i++) {
-                            let angle = Math.PI * (0.4 + i * 0.2);
-                            // 40° and 60° angles
+                            let angle = Math.PI * (0.4 + i * 0.2); // 40° and 60° angles
                             let speed = Math.sqrt(mainBall.speedX * mainBall.speedX + mainBall.speedY * mainBall.speedY);
                             balls.push({
                                 x: mainBall.x,
@@ -1555,19 +1542,18 @@
                                 speedX: speed * Math.cos(angle) * (i % 2 === 0 ? 1 : -1),
                                 speedY: -speed * Math.sin(angle),
                                 radius: BALL_RADIUS,
-                                fireball: mainBall.fireball
+                                 fireball: mainBall.fireball
                             });
                         }
                         multiballActive = true;
                     }
-                    powerupActive = false;
-                    // This power-up has immediate effect
+                    powerupActive = false; // This power-up has immediate effect
                     break;
                 case 'fireball':
                     // Fireball destroys adjacent bricks
                     // We'll implement this effect in the collision detection
                     for (let i = 0; i < balls.length; i++) {
-                        balls[i].fireball = true;
+                         balls[i].fireball = true;
                     }
                     break;
             }
@@ -1638,15 +1624,15 @@
                 let color = 'white';
                 switch (activePowerupType) {
                     case 'widenPaddle':
-                        indicator = '   ⬅️➡️   ';
+                        indicator = '    ⬅️➡️    ';
                         color = '#55FF55';
                         break;
                     case 'slowBall':
-                        indicator = '   🐢   ';
+                        indicator = '    🐢    ';
                         color = '#5555FF';
                         break;
                     case 'fireball':
-                        indicator = '   🔥   ';
+                        indicator = '    🔥    ';
                         color = '#FF0000';
                         break;
                 }
@@ -1693,7 +1679,7 @@
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     radius: Math.random() * 1.5,
-                    brightness: Math.random() * 0.5 + 0.5,
+                      brightness: Math.random() * 0.5 + 0.5,
                     blinkSpeed: Math.random() * 0.05
                 });
             }
@@ -1768,12 +1754,11 @@
                 if (
                     ball.y + ball.speedY > canvas.height - PADDLE_HEIGHT - ball.radius &&
                     ball.x > paddleX &&
-                    ball.x < paddleX + PADDLE_WIDTH
+                     ball.x < paddleX + PADDLE_WIDTH
                 ) {
                     // Calculate bounce angle based on where ball hits the paddle
                     let hitPos = (ball.x - (paddleX + PADDLE_WIDTH / 2)) / (PADDLE_WIDTH / 2);
-                    let bounceAngle = hitPos * Math.PI / 3;
-                    // Max 60 degrees
+                    let bounceAngle = hitPos * Math.PI / 3; // Max 60 degrees
                     let speed = Math.sqrt(ball.speedX * ball.speedX + ball.speedY * ball.speedY);
                     ball.speedX = speed * Math.sin(bounceAngle);
                     ball.speedY = -speed * Math.cos(bounceAngle);
@@ -1785,8 +1770,8 @@
                 if (ball.y + ball.speedY > canvas.height) {
                     // Only remove this ball if we have multiple balls
                     if (balls.length > 1) {
-                        balls.splice(i, 1);
-                        continue;
+                         balls.splice(i, 1);
+                         continue;
                     } else {
                         // Last ball - lose a life
                         lives--;
@@ -1802,14 +1787,13 @@
                             // Reset ball position
                             ball.x = canvas.width / 2;
                             ball.y = canvas.height - PADDLE_HEIGHT - ball.radius - 10;
-                            ball.speedX = 4 * (Math.random() > 0.5 ? 1 : -1);
-                            ball.speedY = -4;
+                            ball.speedX = 3 * (Math.random() > 0.5 ? 1 : -1);
+                            ball.speedY = -3;
                             // Reset paddle position
                             paddleX = (canvas.width - PADDLE_WIDTH) / 2;
                             // Reset multiball
                             if (multiballActive) {
-                                balls = [ball];
-                                // Keep only the main ball
+                                balls = [ball]; // Keep only the main ball
                                 multiballActive = false;
                             }
                         }
@@ -1871,8 +1855,8 @@
             // Reset ball and paddle positions
             ballX = canvas.width / 2;
             ballY = canvas.height - PADDLE_HEIGHT - BALL_RADIUS - 10;
-            ballSpeedX = 4 * (Math.random() > 0.5 ? 1 : -1);
-            ballSpeedY = -4;
+            ballSpeedX = 3 * (Math.random() > 0.5 ? 1 : -1);
+            ballSpeedY = -3;
             paddleX = (canvas.width - PADDLE_WIDTH) / 2;
             // Reset balls array
             balls = [{
@@ -1880,7 +1864,7 @@
                 y: ballY,
                 speedX: ballSpeedX,
                 speedY: ballSpeedY,
-                radius: BALL_RADIUS,
+                 radius: BALL_RADIUS,
                 fireball: false
             }];
             multiballActive = false;
@@ -1910,8 +1894,8 @@
             // Reset ball and paddle positions
             ballX = canvas.width / 2;
             ballY = canvas.height - PADDLE_HEIGHT - BALL_RADIUS - 10;
-            ballSpeedX = 4 * (Math.random() > 0.5 ? 1 : -1);
-            ballSpeedY = -4;
+            ballSpeedX = 3 * (Math.random() > 0.5 ? 1 : -1);
+            ballSpeedY = -3;
             paddleX = (canvas.width - PADDLE_WIDTH) / 2;
             // Reset balls array
             balls = [{
@@ -1919,7 +1903,7 @@
                 y: ballY,
                 speedX: ballSpeedX,
                 speedY: ballSpeedY,
-                radius: BALL_RADIUS,
+                 radius: BALL_RADIUS,
                 fireball: false
             }];
             multiballActive = false;
@@ -1953,7 +1937,7 @@
             ballX = canvas.width / 2;
             ballY = canvas.height - PADDLE_HEIGHT - BALL_RADIUS - 10;
             // Increase base ball speed with level
-            let baseSpeed = 4 + (level - 1) * 0.5;
+            let baseSpeed = 3 + (level - 1) * 0.5;
             ballSpeedX = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
             ballSpeedY = -baseSpeed;
             paddleX = (canvas.width - PADDLE_WIDTH) / 2;
@@ -1963,7 +1947,7 @@
                 y: ballY,
                 speedX: ballSpeedX,
                 speedY: ballSpeedY,
-                radius: BALL_RADIUS,
+                 radius: BALL_RADIUS,
                 fireball: false
             }];
             multiballActive = false;
@@ -1997,7 +1981,7 @@
                     gameStatsDisplay.innerHTML = `
                         Level: ${level}<br>
                         Bricks Destroyed: ${bricksHit}<br>
-                        Paddle Hits: ${paddleHits}<br>
+                         Paddle Hits: ${paddleHits}<br>
                         Max Combo: x${maxCombo}<br>
                         Time Played: ${timeString}
                     `;
@@ -2012,8 +1996,7 @@
                     if (saveScoreBtn) {
                         saveScoreBtn.style.display = 'block';
                         saveScoreBtn.onclick = function() {
-                            const name = nameInput.value.trim() ||
-                                          'Player';
+                            const name = nameInput.value.trim() || 'Player';
                             addHighScore(name, score, level);
                             // Hide input elements after saving
                             newHighScoreText.style.display = 'none';
@@ -2060,11 +2043,11 @@
                     levelStatsDisplay.innerHTML = `
                         Level ${level} Complete!<br>
                         Bricks Destroyed: ${bricksHit}<br>
-                        Paddle Hits: ${paddleHits}<br>
+                         Paddle Hits: ${paddleHits}<br>
                         Max Combo: x${maxCombo}<br>
                         Lives Remaining: ${lives}<br>
                         Time Bonus: +${timeBonus}<br>
-                        Lives Bonus: +${lifeBonus}<br>
+                         Lives Bonus: +${lifeBonus}<br>
                         Level Bonus: +${levelBonus}<br>
                         Combo Bonus: +${comboBonus}
                     `;
@@ -2134,7 +2117,7 @@
                     debug("Back button clicked");
                     document.getElementById("high-scores").style.display = "none";
                     startScreen.style.display = "flex";
-                });
+               });
             }
             // Menu button
             const menuBtn = document.getElementById("menu-btn");
@@ -2144,7 +2127,7 @@
                     if (gameMenu.style.display === "block") {
                         gameMenu.style.display = "none";
                     } else {
-                        gameMenu.style.display = "block";
+                         gameMenu.style.display = "block";
                     }
                 });
                 // Menu items
@@ -2185,11 +2168,11 @@
                     restartFromMenu.addEventListener("click", function() {
                         gameMenu.style.display = "none";
                         if (gameStarted) {
-                            restartGame();
+                             restartGame();
                         } else {
                             startGame();
                         }
-                    });
+                     });
                 }
             }
             // Theme selectors
@@ -2240,12 +2223,14 @@
             debug("Page loaded, initializing game...");
             // Load high scores
             loadHighScores();
+
             // Initialize game elements
             if (initializeElements()) {
                 // Create starry background
                 createStars();
                 // Set up button listeners
                 setupButtonListeners();
+
                 // Set up mobile controls
                 setupMobileControls();
                 // Add event listeners for keyboard and mouse
@@ -2271,12 +2256,10 @@
                 debug("Restart button clicked via global handler");
                 restartGame();
             } else if (e.target && e.target.id === "next-level-button") {
-                // CORRECTED LINE BELOW
                 debug("Next level button clicked via global handler");
                 nextLevel();
             }
         });
-
     </script>
 </body>
 </html>
