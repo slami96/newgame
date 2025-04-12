@@ -4,57 +4,402 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enhanced Brick Breaker</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0; /* [cite: 329] */
+            padding: 0; /* [cite: 329] */
+            display: flex; /* [cite: 329] */
+            justify-content: center; /* [cite: 329] */
+            align-items: center; /* [cite: 329] */
+            height: 100vh; /* [cite: 329] */
+            background-color: #0a0a2a; /* [cite: 329] */
+            font-family: 'Arial', sans-serif; /* [cite: 329] */
+            overflow: hidden; /* [cite: 329] */
+            color: white; /* [cite: 329] */
+        } /* [cite: 330] */
+
+        #game-container {
+            position: relative; /* [cite: 330] */
+            width: 800px; /* [cite: 331] */
+            height: 600px; /* [cite: 331] */
+        } /* [cite: 331] */
+
+        canvas {
+            background-color: #111133; /* [cite: 331] */
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.5); /* [cite: 332] */
+            border-radius: 10px; /* [cite: 332] */
+        } /* [cite: 333] */
+
+        #score {
+            position: absolute; /* [cite: 333] */
+            top: 20px; /* [cite: 334] */
+            left: 20px; /* [cite: 334] */
+            color: white; /* [cite: 334] */
+            font-size: 24px; /* [cite: 334] */
+            font-weight: bold; /* [cite: 334] */
+            text-shadow: 0 0 5px #00ffff; /* [cite: 334] */
+        } /* [cite: 335] */
+
+        #lives {
+            position: absolute; /* [cite: 335] */
+            top: 20px; /* [cite: 336] */
+            right: 20px; /* [cite: 336] */
+            color: white; /* [cite: 336] */
+            font-size: 24px; /* [cite: 336] */
+            font-weight: bold; /* [cite: 336] */
+            text-shadow: 0 0 5px #ff00ff; /* [cite: 336] */
+        } /* [cite: 337] */
+
+        #combo-display {
+            position: absolute; /* [cite: 337] */
+            top: 60px; /* [cite: 338] */
+            left: 20px; /* [cite: 338] */
+            color: #ffaa00; /* [cite: 338] */
+            font-size: 20px; /* [cite: 338] */
+            font-weight: bold; /* [cite: 338] */
+            text-shadow: 0 0 5px #ff7700; /* [cite: 338] */
+            opacity: 0; /* [cite: 338] */
+            transition: opacity 0.3s; /* [cite: 338] */
+        } /* [cite: 339] */
+
+        #level-display {
+            position: absolute; /* [cite: 339] */
+            top: 20px; /* [cite: 340] */
+            left: 50%; /* [cite: 340] */
+            transform: translateX(-50%); /* [cite: 340] */
+            color: white; /* [cite: 340] */
+            font-size: 24px; /* [cite: 340] */
+            font-weight: bold; /* [cite: 340] */
+            text-shadow: 0 0 5px #00ffff; /* [cite: 340] */
+        } /* [cite: 341] */
+
+        #game-over, #level-complete {
+            position: absolute; /* [cite: 341] */
+            top: 0; /* [cite: 342] */
+            left: 0; /* [cite: 342] */
+            width: 100%; /* [cite: 342] */
+            height: 100%; /* [cite: 342] */
+            display: flex; /* [cite: 342] */
+            flex-direction: column; /* [cite: 342] */
+            justify-content: center; /* [cite: 342] */
+            align-items: center; /* [cite: 342] */
+            background-color: rgba(0, 0, 0, 0.8); /* [cite: 343] */
+            color: white; /* [cite: 343] */
+            font-size: 36px; /* [cite: 343] */
+            display: none; /* [cite: 343] */
+            border-radius: 10px; /* [cite: 343] */
+            text-align: center; /* [cite: 343] */
+        } /* [cite: 344] */
+
+        #game-over h2, #level-complete h2 {
+            color: #ff5555; /* [cite: 344] */
+            text-shadow: 0 0 10px #ff0000; /* [cite: 345] */
+            margin-bottom: 10px; /* [cite: 345] */
+        } /* [cite: 345] */
+
+        #game-stats {
+            margin: 20px 0; /* [cite: 345] */
+            font-size: 24px; /* [cite: 346] */
+            color: #aaffff; /* [cite: 346] */
+        } /* [cite: 346] */
+
+        button {
+            padding: 15px 30px; /* [cite: 346] */
+            font-size: 20px; /* [cite: 347] */
+            background: linear-gradient(to bottom, #4444ff, #2222aa); /* [cite: 347] */
+            color: white; /* [cite: 347] */
+            border: none; /* [cite: 347] */
+            border-radius: 5px; /* [cite: 347] */
+            cursor: pointer; /* [cite: 347] */
+            margin-top: 20px; /* [cite: 347] */
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* [cite: 348] */
+            transition: all 0.3s; /* [cite: 348] */
+        } /* [cite: 349] */
+
+        button:hover {
+            background: linear-gradient(to bottom, #5555ff, #3333bb); /* [cite: 349] */
+            transform: scale(1.05); /* [cite: 350] */
+        } /* [cite: 350] */
+
+        #start-screen {
+            position: absolute; /* [cite: 350] */
+            top: 0; /* [cite: 351] */
+            left: 0; /* [cite: 351] */
+            width: 100%; /* [cite: 351] */
+            height: 100%; /* [cite: 351] */
+            display: flex; /* [cite: 351] */
+            flex-direction: column; /* [cite: 351] */
+            justify-content: center; /* [cite: 351] */
+            align-items: center; /* [cite: 351] */
+            background-color: rgba(10, 10, 42, 0.9); /* [cite: 352] */
+            color: white; /* [cite: 352] */
+            border-radius: 10px; /* [cite: 352] */
+            z-index: 100; /* [cite: 352] */
+        } /* [cite: 353] */
+
+        #start-screen h1 {
+            font-size: 48px; /* [cite: 353] */
+            margin-bottom: 30px; /* [cite: 354] */
+            text-shadow: 0 0 15px #00ffff; /* [cite: 354] */
+            animation: glow 2s infinite alternate; /* [cite: 354] */
+        } /* [cite: 355] */
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #00ffff; /* [cite: 355] */
+            } /* [cite: 356] */
+            to {
+                text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff; /* [cite: 356] */
+            } /* [cite: 357] */
+        } /* [cite: 357] */
+
+        #instructions {
+            margin: 20px 0; /* [cite: 357] */
+            text-align: center; /* [cite: 358] */
+            max-width: 500px; /* [cite: 358] */
+            line-height: 1.5; /* [cite: 358] */
+        } /* [cite: 358] */
+        #fps {
+            position: absolute; /* [cite: 358] */
+            bottom: 10px; /* [cite: 359] */
+            right: 10px; /* [cite: 359] */
+            color: rgba(255, 255, 255, 0.5); /* [cite: 359] */
+            font-size: 12px; /* [cite: 359] */
+        } /* [cite: 360] */
+
+        #pause-indicator {
+            position: absolute; /* [cite: 360] */
+            top: 50%; /* [cite: 361] */
+            left: 50%; /* [cite: 361] */
+            transform: translate(-50%, -50%); /* [cite: 361] */
+            color: white; /* [cite: 361] */
+            font-size: 36px; /* [cite: 361] */
+            background-color: rgba(0, 0, 0, 0.7); /* [cite: 361] */
+            padding: 20px 40px; /* [cite: 361] */
+            border-radius: 10px; /* [cite: 362] */
+            display: none; /* [cite: 362] */
+            z-index: 50; /* [cite: 362] */
+        } /* [cite: 362] */
+        #debug-panel {
+            position: absolute; /* [cite: 362] */
+            bottom: 10px; /* [cite: 363] */
+            left: 10px; /* [cite: 363] */
+            color: white; /* [cite: 363] */
+            font-size: 12px; /* [cite: 363] */
+            background-color: rgba(0, 0, 0, 0.5); /* [cite: 363] */
+            padding: 5px; /* [cite: 363] */
+            border-radius: 5px; /* [cite: 363] */
+            max-width: 300px; /* [cite: 363] */
+            display: none; /* [cite: 364] */
+        } /* [cite: 364] */
+
+        /* Theme selector */
+        #theme-selector {
+            position: absolute; /* [cite: 364] */
+            top: 15px; /* [cite: 365] */
+            left: 50%; /* [cite: 365] */
+            transform: translateX(-50%); /* [cite: 365] */
+            display: flex; /* [cite: 365] */
+            gap: 10px; /* [cite: 365] */
+            z-index: 110; /* [cite: 365] */
+        } /* [cite: 366] */
+
+        .theme-btn {
+            width: 30px; /* [cite: 366] */
+            height: 30px; /* [cite: 367] */
+            border-radius: 50%; /* [cite: 367] */
+            border: 2px solid white; /* [cite: 367] */
+            cursor: pointer; /* [cite: 367] */
+            transition: transform 0.2s; /* [cite: 367] */
+        } /* [cite: 368] */
+
+        .theme-btn:hover {
+            transform: scale(1.2); /* [cite: 368] */
+        } /* [cite: 369] */
+
+        .theme-btn.active {
+            border: 2px solid gold; /* [cite: 369] */
+            box-shadow: 0 0 10px gold; /* [cite: 370] */
+        } /* [cite: 370] */
+
+        #standard-theme {
+            background: linear-gradient(to bottom right, #0a0a2a, #191970); /* [cite: 370] */
+        } /* [cite: 371] */
+
+        #neon-theme {
+            background: linear-gradient(to bottom right, #000, #440044); /* [cite: 371] */
+        } /* [cite: 372] */
+
+        #retro-theme {
+            background: linear-gradient(to bottom right, #221, #442); /* [cite: 372] */
+        } /* [cite: 373] */
+
+        /* High Score display */
+        #high-scores {
+            position: absolute; /* [cite: 373] */
+            top: 0; /* [cite: 374] */
+            left: 0; /* [cite: 374] */
+            width: 100%; /* [cite: 374] */
+            height: 100%; /* [cite: 374] */
+            display: flex; /* [cite: 374] */
+            flex-direction: column; /* [cite: 374] */
+            justify-content: center; /* [cite: 374] */
+            align-items: center; /* [cite: 374] */
+            background-color: rgba(0, 0, 0, 0.9); /* [cite: 375] */
+            color: white; /* [cite: 375] */
+            font-size: 24px; /* [cite: 375] */
+            display: none; /* [cite: 375] */
+            border-radius: 10px; /* [cite: 375] */
+            z-index: 120; /* [cite: 375] */
+        } /* [cite: 376] */
+
+        #high-scores h2 {
+            font-size: 36px; /* [cite: 376] */
+            margin-bottom: 20px; /* [cite: 377] */
+            text-shadow: 0 0 10px #00ffff; /* [cite: 377] */
+        } /* [cite: 377] */
+
+        #scores-list {
+            width: 80%; /* [cite: 377] */
+            margin-bottom: 30px; /* [cite: 378] */
+        } /* [cite: 378] */
+
+        .score-row {
+            display: flex; /* [cite: 378] */
+            justify-content: space-between; /* [cite: 379] */
+            padding: 10px; /* [cite: 379] */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* [cite: 379] */
+        } /* [cite: 380] */
+
+        .score-row:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05); /* [cite: 380] */
+        } /* [cite: 381] */
+
+        /* Animated elements */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); /* [cite: 381] */ }
+            50% { transform: translateY(-20px); /* [cite: 382] */ }
+        } /* [cite: 383] */
+
+        @keyframes flash {
+            0%, 100% { opacity: 1; /* [cite: 383] */ }
+            50% { opacity: 0.5; /* [cite: 384] */ }
+        } /* [cite: 385] */
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); /* [cite: 385] */ }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); /* [cite: 386] */ }
+            20%, 40%, 60%, 80% { transform: translateX(5px); /* [cite: 387] */ }
+        } /* [cite: 388] */
+
+        .shaking {
+            animation: shake 0.5s; /* [cite: 388] */
+        } /* [cite: 389] */
+
+        /* Screen flash */
+        #screen-flash {
+            position: absolute; /* [cite: 389] */
+            top: 0; /* [cite: 390] */
+            left: 0; /* [cite: 390] */
+            width: 100%; /* [cite: 390] */
+            height: 100%; /* [cite: 390] */
+            background-color: white; /* [cite: 390] */
+            opacity: 0; /* [cite: 390] */
+            pointer-events: none; /* [cite: 390] */
+            border-radius: 10px; /* [cite: 390] */
+            transition: opacity 0.1s; /* [cite: 390] */
+        } /* [cite: 391] */
+
+        /* Mobile controls */
+        #mobile-controls {
+            position: absolute; /* [cite: 391] */
+            bottom: 0; /* [cite: 392] */
+            left: 0; /* [cite: 392] */
+            width: 100%; /* [cite: 392] */
+            height: 80px; /* [cite: 392] */
+            display: none; /* [cite: 392] */
+            justify-content: space-between; /* [cite: 392] */
+            align-items: center; /* [cite: 392] */
+            z-index: 30; /* [cite: 392] */
+        } /* [cite: 393] */
+
+        .mobile-btn {
+            width: 40%; /* [cite: 393] */
+            height: 100%; /* [cite: 394] */
+            background-color: rgba(255, 255, 255, 0.1); /* [cite: 394] */
+            display: flex; /* [cite: 394] */
+            justify-content: center; /* [cite: 394] */
+            align-items: center; /* [cite: 394] */
+            font-size: 24px; /* [cite: 394] */
+            cursor: pointer; /* [cite: 394] */
+            user-select: none; /* [cite: 394] */
+        } /* [cite: 395] */
+
+        #menu-btn {
+            position: absolute; /* [cite: 395] */
+            top: 20px; /* [cite: 396] */
+            right: 20px; /* [cite: 396] */
+            width: 40px; /* [cite: 396] */
+            height: 40px; /* [cite: 396] */
+            background-color: rgba(0, 0, 0, 0.5); /* [cite: 396] */
+            border-radius: 50%; /* [cite: 396] */
+            display: flex; /* [cite: 396] */
+            justify-content: center; /* [cite: 396] */
+            align-items: center; /* [cite: 397] */
+            cursor: pointer; /* [cite: 397] */
+            z-index: 110; /* [cite: 397] */
+        } /* [cite: 397] */
+
+        #menu-btn::before {
+            content: " ⚙️ "; /* [cite: 397] */
+            font-size: 20px; /* [cite: 398] */
+        } /* [cite: 398] */
+
+        #game-menu {
+            position: absolute; /* [cite: 398] */
+            top: 70px; /* [cite: 399] */
+            right: 20px; /* [cite: 399] */
+            background-color: rgba(0, 0, 0, 0.8); /* [cite: 399] */
+            border-radius: 10px; /* [cite: 399] */
+            padding: 10px; /* [cite: 399] */
+            display: none; /* [cite: 399] */
+            z-index: 110; /* [cite: 399] */
+        } /* [cite: 400] */
+
+        .menu-item {
+            padding: 10px; /* [cite: 400] */
+            cursor: pointer; /* [cite: 401] */
+            transition: background-color 0.2s; /* [cite: 401] */
+        } /* [cite: 401] */
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* [cite: 401] */
+        } /* [cite: 402] */
+
+        #name-input {
+            padding: 10px; /* [cite: 402] */
+            font-size: 18px; /* [cite: 403] */
+            border-radius: 5px; /* [cite: 403] */
+            border: none; /* [cite: 403] */
+            margin: 10px 0; /* [cite: 403] */
+            width: 250px; /* [cite: 403] */
+            text-align: center; /* [cite: 403] */
+        } /* [cite: 404] */
+    </style>
 </head>
 <body>
     <div id="game-container">
         <canvas id="gameCanvas" width="800" height="600"></canvas>
-
         <div id="score">Score: 0</div>
         <div id="lives">Lives: 3</div>
         <div id="combo-display">Combo x1</div>
         <div id="level-display">Level 1</div>
         <div id="fps">FPS: 0</div>
-
-        <div id="start-screen">
-            <h1>BRICK BREAKER</h1>
-            <div id="instructions">
-                <p>Use mouse or arrow keys to move the paddle.</p>
-                <p>Break all bricks. Don't let the ball fall!</p>
-            </div>
-            <button id="start-button">START GAME</button>
-            <button id="high-scores-button">HIGH SCORES</button>
-        </div>
-
-        <div id="game-over">
-            <h2>GAME OVER</h2>
-            <div id="final-score"></div>
-            <div id="game-stats"></div>
-            <div id="new-high-score" style="display: none;">NEW HIGH SCORE!</div>
-            <input type="text" id="name-input" placeholder="Enter your name" style="display: none;">
-            <button id="save-score-button" style="display: none;">SAVE SCORE</button>
-            <button id="restart-button">PLAY AGAIN</button>
-            <button id="show-scores-button">HIGH SCORES</button>
-        </div>
-
-        <div id="level-complete">
-            <h2>LEVEL COMPLETE!</h2>
-            <div id="level-score"></div>
-            <div id="level-stats"></div>
-            <button id="next-level-button">NEXT LEVEL</button>
-        </div>
-
-        <div id="high-scores">
-            <h2>HIGH SCORES</h2>
-            <div id="scores-list"></div>
-            <button id="back-button">BACK</button>
-        </div>
-
-        <div id="pause-indicator">PAUSED</div>
+        <div id="debug-panel"></div>
         <div id="screen-flash"></div>
 
-        <div id="menu-btn"></div>
-        <div id="game-menu">
+
+        <div id="menu-btn"></div> <div id="game-menu">
             <div class="menu-item" id="toggle-sound">Sound: ON</div>
             <div class="menu-item" id="toggle-music">Music: ON</div>
             <div class="menu-item" id="show-high-scores">High Scores</div>
@@ -62,18 +407,2226 @@
             <div class="menu-item" id="restart-from-menu">Restart</div>
         </div>
 
-        <div id="theme-selector">
-            <div class="theme-btn active" id="standard-theme"></div>
-            <div class="theme-btn" id="neon-theme"></div>
-            <div class="theme-btn" id="retro-theme"></div>
+
+        <div id="theme-selector"> <div class="theme-btn active" id="standard-theme" title="Standard Theme"></div>
+            <div class="theme-btn" id="neon-theme" title="Neon Theme"></div>
+            <div class="theme-btn" id="retro-theme" title="Retro Theme"></div>
         </div>
+
+        <div id="start-screen">
+            <h1>BRICK BREAKER</h1>
+
+            <div id="instructions"> <p>Use your mouse or arrow keys to move the paddle and bounce the ball to break all bricks.</p>
+                <p>Don't let the ball fall off the bottom of the screen!</p>
+                <p>Some bricks need multiple hits to break!</p> <p>Watch for special power-ups!</p> <p>Press 'P' to pause the game at any time.</p>
+            </div> <button id="start-button">START GAME</button>
+            <button id="high-scores-button">HIGH SCORES</button>
+        </div>
+
+        <div id="high-scores">
+
+            <h2>HIGH SCORES</h2> <div id="scores-list">
+                </div>
+            <button id="back-button">BACK</button>
+        </div>
+
+        <div id="game-over">
+
+            <h2>GAME OVER</h2> <div id="final-score"></div>
+            <div id="game-stats"></div>
+            <div id="new-high-score" style="color: gold; font-size: 24px; margin: 10px 0; display: none;">
+                NEW HIGH SCORE!
+            </div> <input type="text" id="name-input" placeholder="Enter your name" style="display: none;">
+            <button id="save-score-button" style="display: none;">SAVE SCORE</button>
+            <button id="restart-button">PLAY AGAIN</button>
+            <button id="show-scores-button">HIGH SCORES</button>
+        </div>
+
+        <div id="level-complete">
+
+            <h2>LEVEL COMPLETE!</h2> <div id="level-score"></div>
+            <div id="level-stats"></div>
+            <button id="next-level-button">NEXT LEVEL</button>
+        </div>
+
+        <div id="pause-indicator">PAUSED</div>
 
         <div id="mobile-controls">
-            <div class="mobile-btn" id="left-btn">◀</div>
-            <div class="mobile-btn" id="right-btn">▶</div>
-        </div>
+            <div class="mobile-btn" id="left-btn"> ◀ </div>
+
+            <div class="mobile-btn" id="right-btn"> ▶ </div> </div>
     </div>
 
-    <script src="game.js"></script>
+    <script>
+        // Debug mode - set to false for production
+        const DEBUG_MODE = false; /* [cite: 413] */
+        // Game constants
+        const PADDLE_HEIGHT = 20; /* [cite: 414] */
+        let PADDLE_WIDTH = 100; /* [cite: 414] */
+        const BALL_RADIUS = 10; /* [cite: 415] */
+        const BRICK_ROWS = 5; /* [cite: 415] */
+        const BRICK_COLUMNS = 10; /* [cite: 415] */
+        const BRICK_HEIGHT = 30; /* [cite: 415] */
+        const BRICK_WIDTH = 75; /* [cite: 415] */
+        const BRICK_PADDING = 5; /* [cite: 416] */
+        const BRICK_OFFSET_TOP = 80; /* [cite: 416] */
+        const BRICK_OFFSET_LEFT = 15; /* [cite: 416] */
+        // Game variables
+        let canvas, ctx, scoreDisplay, livesDisplay, levelDisplay, comboDisplay,
+            fpsDisplay, gameOverScreen, levelCompleteScreen, startScreen,
+            pauseIndicator, finalScoreDisplay, gameStatsDisplay, levelScoreDisplay,
+            levelStatsDisplay, debugPanel, screenFlash; /* [cite: 417] */
+        let paddleX = 0; /* [cite: 418] */
+        let ballX = 0; /* [cite: 418] */
+        let ballY = 0; /* [cite: 418] */
+        let ballSpeedX = 4; /* [cite: 418] */
+        let ballSpeedY = -4; /* [cite: 418] */
+        let rightPressed = false; /* [cite: 419] */
+        let leftPressed = false; /* [cite: 419] */
+        let score = 0; /* [cite: 419] */
+        let lives = 3; /* [cite: 419] */
+        let level = 1; /* [cite: 419] */
+        let combo = 0; /* [cite: 420] */
+        let maxCombo = 0; /* [cite: 420] */
+        let comboTimer = 0; /* [cite: 420] */
+        let gameStarted = false; /* [cite: 420] */
+        let gamePaused = false; /* [cite: 420] */
+        let bricksHit = 0; /* [cite: 421] */
+        let totalBricks = 0; /* [cite: 421] */
+        let paddleHits = 0; /* [cite: 421] */
+        let gameTime = 0; /* [cite: 421] */
+        let startTime = 0; /* [cite: 421] */
+        let lastFrameTime = 0; /* [cite: 422] */
+        let frameCount = 0; /* [cite: 422] */
+        let fps = 0; /* [cite: 422] */
+        let lastFpsUpdate = 0; /* [cite: 422] */
+        let soundEnabled = true; /* [cite: 422] */
+        let musicEnabled = true; /* [cite: 423] */
+        let currentTheme = 'standard'; /* [cite: 423] */
+        let screenShaking = false; /* [cite: 423] */
+        let backgroundMusic = null; /* [cite: 423] */
+        let multiballActive = false; /* [cite: 423] */
+        let balls = []; /* [cite: 424] */
+
+        // Store the various themes
+        const themes = {
+            standard: {
+                background: {
+                    start: '#000033', /* [cite: 424] */
+                    end: '#000022'
+                }, /* [cite: 425] */
+                paddle: {
+                    start: '#4444ff', /* [cite: 425] */
+                    end: '#2222aa'
+                },
+                ball: {
+                    start: '#ffffff', /* [cite: 426] */
+                    end: '#aaaaff'
+                },
+                brick: {
+                    0: '#FF5555', /* [cite: 426] */ // Red
+                    1: '#FFAA55', /* [cite: 427] */ // Orange
+                    2: '#FFFF55', /* [cite: 427] */ // Yellow
+                    3: '#55FF55', /* [cite: 427] */ // Green
+                    4: '#55FFFF'  /* [cite: 427] */ // Cyan
+                }, /* [cite: 428] */
+                particles: {
+                    paddle: '#4444ff', /* [cite: 428] */
+                    wall: '#ffffff'
+                },
+                screen: {
+                    bg: 'rgba(10, 10, 42, 0.9)' /* [cite: 429] */
+                }
+            },
+            neon: {
+                background: {
+                    start: '#000000', /* [cite: 430] */
+                    end: '#110011'
+                },
+                paddle: {
+                    start: '#ff00ff', /* [cite: 430] */
+                    end: '#aa00aa'
+                }, /* [cite: 431] */
+                ball: {
+                    start: '#ffffff', /* [cite: 431] */
+                    end: '#ff88ff'
+                },
+                brick: { /* [cite: 432] */
+                    0: '#ff0066', // Pink
+                    1: '#ff3300', // Red-Orange
+                    2: '#ffcc00', // Yellow
+                    3: '#33ff00', // Green
+                    4: '#00ffcc'  /* [cite: 433] */ // Cyan
+                },
+                particles: {
+                    paddle: '#ff00ff', /* [cite: 433] */
+                    wall: '#00ffff'
+                }, /* [cite: 434] */
+                screen: {
+                    bg: 'rgba(17, 0, 17, 0.9)'
+                }
+            },
+            retro: {
+                background: { /* [cite: 435] */
+                    start: '#222211',
+                    end: '#111100'
+                },
+                paddle: {
+                    start: '#cccc44', /* [cite: 436] */
+                    end: '#aaaa22'
+                },
+                ball: {
+                    start: '#ffffff',
+                    end: '#eeeebb' /* [cite: 437] */
+                },
+                brick: {
+                    0: '#cc4400', /* [cite: 437] */ // Dark Orange
+                    1: '#ccaa00', // Gold
+                    2: '#44cc00', /* [cite: 438] */ // Lime
+                    3: '#00ccaa', // Teal
+                    4: '#0044cc'  // Blue
+                },
+                particles: {
+                    paddle: '#cccc44', /* [cite: 439] */
+                    wall: '#ffffff'
+                },
+                screen: {
+                    bg: 'rgba(34, 34, 17, 0.9)'
+                } /* [cite: 440] */
+            }
+        }; /* [cite: 441] */
+        // Power-up variables
+        const paddleWidthNormal = PADDLE_WIDTH; /* [cite: 441] */
+        const paddleWidthWide = PADDLE_WIDTH * 1.5; /* [cite: 441] */
+        const ballSpeedNormal = 4; /* [cite: 442] */
+        const ballSpeedSlow = 2; /* [cite: 442] */
+        let powerupActive = false; /* [cite: 442] */
+        let powerupTimer = 0; /* [cite: 442] */
+        let activePowerupType = null; /* [cite: 442] */
+        // Create arrays
+        let bricks = []; /* [cite: 443] */
+        let stars = []; /* [cite: 443] */
+        let particles = []; /* [cite: 444] */
+        let powerups = []; /* [cite: 444] */
+
+        // High scores
+        let highScores = []; /* [cite: 444] */
+        // Debug function
+        function debug(message) {
+            if (DEBUG_MODE && debugPanel) { /* [cite: 445] */
+                debugPanel.innerHTML += message + "<br>"; /* [cite: 445] */
+                // Keep only the last 5 messages
+                const lines = debugPanel.innerHTML.split("<br>"); /* [cite: 446] */
+                if (lines.length > 6) { /* [cite: 447] */
+                    debugPanel.innerHTML = lines.slice(lines.length - 6).join("<br>"); /* [cite: 447] */
+                } /* [cite: 448] */
+            } /* [cite: 448] */
+            console.log(message); /* [cite: 448] */
+        } /* [cite: 449] */
+
+        // Load high scores from local storage
+        function loadHighScores() {
+            const savedScores = localStorage.getItem('brickBreakerHighScores'); /* [cite: 449] */
+            if (savedScores) { /* [cite: 450] */
+                try {
+                    highScores = JSON.parse(savedScores); /* [cite: 450] */
+                    debug("Loaded high scores from local storage"); /* [cite: 451] */
+                } catch (e) {
+                    debug("Error loading high scores: " + e.message); /* [cite: 451] */
+                    highScores = []; /* [cite: 452] */
+                }
+            } else {
+                highScores = [ /* [cite: 452] */
+                    { name: "AAA", score: 5000, level: 3 },
+                    { name: "BBB", score: 3500, level: 2 },
+                    { name: "CCC", score: 2000, level: 2 }, /* [cite: 453] */
+                    { name: "DDD", score: 1000, level: 1 },
+                    { name: "EEE", score: 500, level: 1 }
+                ]; /* [cite: 453] */
+                saveHighScores(); /* [cite: 454] */
+            }
+        }
+
+        // Save high scores to local storage
+        function saveHighScores() {
+            try {
+                localStorage.setItem('brickBreakerHighScores', JSON.stringify(highScores)); /* [cite: 454] */
+                debug("Saved high scores to local storage"); /* [cite: 455] */
+            } catch (e) {
+                debug("Error saving high scores: " + e.message); /* [cite: 455] */
+            } /* [cite: 456] */
+        }
+
+        // Check if score is a high score
+        function isHighScore(score) {
+            return highScores.length < 10 || /* [cite: 456] */
+                   score > highScores[highScores.length - 1].score; /* [cite: 457] */
+        }
+
+        // Add a new high score
+        function addHighScore(name, score, level) {
+            highScores.push({ name, score, level }); /* [cite: 457] */
+            highScores.sort((a, b) => b.score - a.score); /* [cite: 458] */
+            if (highScores.length > 10) { /* [cite: 458] */
+                highScores = highScores.slice(0, 10); /* [cite: 458] */
+            } /* [cite: 459] */
+            saveHighScores(); /* [cite: 459] */
+        } /* [cite: 460] */
+
+        // Display high scores
+        function displayHighScores() {
+            const scoresList = document.getElementById('scores-list'); /* [cite: 460] */
+            scoresList.innerHTML = ''; /* [cite: 461] */
+
+            if (highScores.length === 0) { /* [cite: 461] */
+                scoresList.innerHTML = '<div class="score-row">No high scores yet!</div>'; /* [cite: 461] */
+                return; /* [cite: 462] */
+            }
+
+            highScores.forEach((score, index) => { /* [cite: 462] */
+                const row = document.createElement('div'); /* [cite: 462] */
+                row.className = 'score-row'; /* [cite: 462] */
+                row.innerHTML = `
+                    <span>${index + 1}. ${score.name}</span> /* [cite: 463] */
+                    <span>${score.score} (Level ${score.level})</span>
+                `; /* [cite: 463] */
+                scoresList.appendChild(row); /* [cite: 463] */
+            });
+        } /* [cite: 464] */
+
+        // Initialize all DOM elements safely
+        function initializeElements() {
+            debug("Initializing DOM elements..."); /* [cite: 464] */
+            canvas = document.getElementById("gameCanvas"); /* [cite: 465] */
+            if (!canvas) { /* [cite: 465] */
+                debug("Error: Canvas element not found!"); /* [cite: 465] */
+                return false; /* [cite: 466] */
+            }
+
+            try {
+                ctx = canvas.getContext("2d"); /* [cite: 466] */
+                if (!ctx) { /* [cite: 467] */
+                    debug("Error: Could not get canvas context!"); /* [cite: 467] */
+                    return false; /* [cite: 468] */
+                }
+
+                scoreDisplay = document.getElementById("score"); /* [cite: 468] */
+                livesDisplay = document.getElementById("lives"); /* [cite: 469] */
+                levelDisplay = document.getElementById("level-display"); /* [cite: 469] */
+                comboDisplay = document.getElementById("combo-display"); /* [cite: 469] */
+                fpsDisplay = document.getElementById("fps"); /* [cite: 469] */
+                gameOverScreen = document.getElementById("game-over"); /* [cite: 469] */
+                levelCompleteScreen = document.getElementById("level-complete"); /* [cite: 469] */
+                startScreen = document.getElementById("start-screen"); /* [cite: 470] */
+                pauseIndicator = document.getElementById("pause-indicator"); /* [cite: 470] */
+                finalScoreDisplay = document.getElementById("final-score"); /* [cite: 470] */
+                gameStatsDisplay = document.getElementById("game-stats"); /* [cite: 470] */
+                levelScoreDisplay = document.getElementById("level-score"); /* [cite: 470] */
+                levelStatsDisplay = document.getElementById("level-stats"); /* [cite: 470] */
+                debugPanel = document.getElementById("debug-panel"); /* [cite: 471] */
+                screenFlash = document.getElementById("screen-flash"); /* [cite: 471] */
+
+                if (DEBUG_MODE && debugPanel) { /* [cite: 471] */
+                    debugPanel.style.display = "block"; /* [cite: 471] */
+                } /* [cite: 472] */
+
+                // Set initial paddle and ball positions
+                paddleX = (canvas.width - PADDLE_WIDTH) / 2; /* [cite: 472] */
+                ballX = canvas.width / 2; /* [cite: 473] */
+                ballY = canvas.height - PADDLE_HEIGHT - BALL_RADIUS - 10; /* [cite: 473] */
+                // Initialize the first ball in the balls array
+                balls = [{ /* [cite: 474] */
+                    x: ballX,
+                    y: ballY,
+                    speedX: ballSpeedX,
+                    speedY: ballSpeedY, /* [cite: 475] */
+                    radius: BALL_RADIUS,
+                    fireball: false
+                }]; /* [cite: 475] */
+                debug("DOM elements initialized successfully!"); /* [cite: 476] */
+                return true; /* [cite: 476] */
+            } catch (e) {
+                debug("Error initializing elements: " + e.message); /* [cite: 476] */
+                return false; /* [cite: 477] */
+            }
+        }
+
+        // Create special bricks that require multiple hits
+        function createBricks() {
+            bricks = []; /* [cite: 477] */
+            for (let c = 0; c < BRICK_COLUMNS; c++) { /* [cite: 478] */
+                bricks[c] = []; /* [cite: 478] */
+                for (let r = 0; r < BRICK_ROWS; r++) { /* [cite: 479] */
+                    // Determine if this should be a special brick (more common in higher levels)
+                    let specialChance = 0.05 + (level - 1) * 0.05; /* [cite: 479] */
+                    // 5% base + 5% per level
+                    let isSpecial = Math.random() < specialChance; /* [cite: 480] */
+                    let hitPoints = isSpecial ? 2 + Math.floor(Math.random() * level) : 1; /* [cite: 481] */
+                    hitPoints = Math.min(hitPoints, 3); /* [cite: 481] */
+                    // Cap at 3 hits
+
+                    bricks[c][r] = { /* [cite: 482] */
+                        x: 0,
+                        y: 0,
+                        status: hitPoints, /* [cite: 483] */
+                        maxHits: hitPoints,
+                        color: themes[currentTheme].brick[r], /* [cite: 483] */
+                        special: isSpecial /* [cite: 484] */
+                    };
+                } /* [cite: 485] */
+            }
+
+            // Count total bricks (each hit point counts as one for progression)
+            totalBricks = 0; /* [cite: 485] */
+            for (let c = 0; c < BRICK_COLUMNS; c++) { /* [cite: 486] */
+                for (let r = 0; r < BRICK_ROWS; r++) { /* [cite: 486] */
+                    totalBricks += bricks[c][r].status; /* [cite: 486] */
+                } /* [cite: 487] */
+            }
+
+            bricksHit = 0; /* [cite: 487] */
+            debug(`Created ${BRICK_COLUMNS * BRICK_ROWS} bricks (${totalBricks} hit points total)`); /* [cite: 488] */
+
+            // Add moving bricks in higher levels (level 3+)
+            if (level >= 3) { /* [cite: 488] */
+                let movingRow = Math.floor(Math.random() * BRICK_ROWS); /* [cite: 488] */
+                for (let c = 0; c < BRICK_COLUMNS; c++) { /* [cite: 489] */
+                    bricks[c][movingRow].moving = true; /* [cite: 489] */
+                    bricks[c][movingRow].moveDir = c % 2 === 0 ? 1 : -1; /* [cite: 490] */
+                    bricks[c][movingRow].moveSpeed = 0.5 + (level - 3) * 0.2; /* [cite: 490] */
+                } /* [cite: 491] */
+                debug(`Added moving bricks in row ${movingRow + 1}`); /* [cite: 491] */
+            } /* [cite: 492] */
+        }
+
+        function drawBall() {
+            // Draw each ball in the balls array
+            balls.forEach(ball => { /* [cite: 557] */
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2); /* [cite: 557] */
+
+                // Create gradient for ball
+                let ballGradient = ctx.createRadialGradient( /* [cite: 557] */
+                    ball.x - ball.radius / 3,
+                    ball.y - ball.radius / 3, /* [cite: 558] */
+                    0,
+                    ball.x,
+                    ball.y,
+                    ball.radius
+                ); /* [cite: 559] */
+                ballGradient.addColorStop(0, themes[currentTheme].ball.start); /* [cite: 559] */
+                ballGradient.addColorStop(1, themes[currentTheme].ball.end); /* [cite: 559] */
+
+                ctx.fillStyle = ballGradient; /* [cite: 559] */
+                ctx.fill(); /* [cite: 559] */
+                ctx.closePath(); /* [cite: 560] */
+
+                // Ball glow effect
+                ctx.beginPath(); /* [cite: 560] */
+                ctx.arc(ball.x, ball.y, ball.radius + 3, 0, Math.PI * 2); /* [cite: 560] */
+                ctx.strokeStyle = "rgba(100, 100, 255, 0.3)"; /* [cite: 561] */
+                ctx.lineWidth = 2; /* [cite: 561] */
+                ctx.stroke(); /* [cite: 561] */
+                ctx.closePath(); /* [cite: 561] */
+                // Add fireball effect
+                if (ball.fireball) { /* [cite: 562] */
+                    ctx.beginPath(); /* [cite: 562] */
+                    ctx.arc(ball.x, ball.y, ball.radius + 5, 0, Math.PI * 2); /* [cite: 563] */
+
+                    // Create flame gradient
+                    let flameGradient = ctx.createRadialGradient( /* [cite: 563] */
+                        ball.x,
+                        ball.y,
+                        ball.radius, /* [cite: 564] */
+                        ball.x,
+                        ball.y,
+                        ball.radius + 5
+                    ); /* [cite: 565] */
+                    flameGradient.addColorStop(0, "rgba(255, 100, 0, 0.8)"); /* [cite: 565] */
+                    flameGradient.addColorStop(1, "rgba(255, 50, 0, 0)"); /* [cite: 565] */
+
+                    ctx.fillStyle = flameGradient; /* [cite: 565] */
+                    ctx.fill(); /* [cite: 566] */
+                    ctx.closePath(); /* [cite: 566] */
+                }
+            });
+        } /* [cite: 567] */
+
+        function drawPaddle() {
+            ctx.beginPath(); /* [cite: 567] */
+            // Create gradient for paddle
+            let paddleGradient = ctx.createLinearGradient( /* [cite: 568] */
+                paddleX,
+                canvas.height - PADDLE_HEIGHT,
+                paddleX,
+                canvas.height
+            ); /* [cite: 569] */
+            paddleGradient.addColorStop(0, themes[currentTheme].paddle.start); /* [cite: 569] */
+            paddleGradient.addColorStop(1, themes[currentTheme].paddle.end); /* [cite: 569] */
+
+            // Draw main paddle with rounded corners
+            // Use fallback if roundRect is not supported
+            if (ctx.roundRect) { /* [cite: 569] */
+                ctx.roundRect( /* [cite: 569] */
+                    paddleX,
+                    canvas.height - PADDLE_HEIGHT, /* [cite: 570] */
+                    PADDLE_WIDTH,
+                    PADDLE_HEIGHT,
+                    [5, 5, 0, 0]
+                ); /* [cite: 570] */
+            } else { /* [cite: 571] */
+                // Fallback for browsers that don't support roundRect
+                ctx.rect( /* [cite: 571] */
+                    paddleX,
+                    canvas.height - PADDLE_HEIGHT,
+                    PADDLE_WIDTH, /* [cite: 572] */
+                    PADDLE_HEIGHT
+                ); /* [cite: 572] */
+            } /* [cite: 573] */
+
+            ctx.fillStyle = paddleGradient; /* [cite: 573] */
+            ctx.fill(); /* [cite: 574] */
+
+            // Draw paddle highlight with rounded corners
+            ctx.beginPath(); /* [cite: 574] */
+            if (ctx.roundRect) { /* [cite: 575] */
+                ctx.roundRect( /* [cite: 575] */
+                    paddleX + 5,
+                    canvas.height - PADDLE_HEIGHT + 3,
+                    PADDLE_WIDTH - 10,
+                    PADDLE_HEIGHT / 3, /* [cite: 576] */
+                    [3, 3, 0, 0]
+                ); /* [cite: 576] */
+            } else { /* [cite: 577] */
+                ctx.rect( /* [cite: 577] */
+                    paddleX + 5,
+                    canvas.height - PADDLE_HEIGHT + 3,
+                    PADDLE_WIDTH - 10,
+                    PADDLE_HEIGHT / 3 /* [cite: 578] */
+                ); /* [cite: 578] */
+            } /* [cite: 579] */
+
+            ctx.fillStyle = "rgba(255, 255, 255, 0.3)"; /* [cite: 579] */
+            ctx.fill(); /* [cite: 580] */
+
+            // Paddle glow effect
+            ctx.beginPath(); /* [cite: 580] */
+            if (ctx.roundRect) { /* [cite: 581] */
+                ctx.roundRect( /* [cite: 581] */
+                    paddleX - 2,
+                    canvas.height - PADDLE_HEIGHT - 2,
+                    PADDLE_WIDTH + 4,
+                    PADDLE_HEIGHT + 2, /* [cite: 582] */
+                    [7, 7, 0, 0]
+                ); /* [cite: 582] */
+            } else { /* [cite: 583] */
+                ctx.rect( /* [cite: 583] */
+                    paddleX - 2,
+                    canvas.height - PADDLE_HEIGHT - 2,
+                    PADDLE_WIDTH + 4,
+                    PADDLE_HEIGHT + 2 /* [cite: 584] */
+                ); /* [cite: 584] */
+            } /* [cite: 585] */
+
+            ctx.strokeStyle = "rgba(100, 100, 255, 0.5)"; /* [cite: 585] */
+            ctx.lineWidth = 2; /* [cite: 586] */
+            ctx.stroke(); /* [cite: 586] */
+        }
+
+        function drawBricks() {
+            for (let c = 0; c < BRICK_COLUMNS; c++) { /* [cite: 586] */
+                for (let r = 0; r < BRICK_ROWS; r++) { /* [cite: 586] */
+                    if (bricks[c][r].status > 0) { /* [cite: 586] */
+
+                        let brickX = c * (BRICK_WIDTH + BRICK_PADDING) + BRICK_OFFSET_LEFT; /* [cite: 587] */
+                        let brickY = r * (BRICK_HEIGHT + BRICK_PADDING) + BRICK_OFFSET_TOP; /* [cite: 588] */
+                        // Update position for moving bricks
+                        if (bricks[c][r].moving) { /* [cite: 589] */
+                            brickX += Math.sin(gameTime / 1000 * Math.PI) * 20 * bricks[c][r].moveDir; /* [cite: 589] */
+                        } /* [cite: 590] */
+
+                        bricks[c][r].x = brickX; /* [cite: 590] */
+                        bricks[c][r].y = brickY; /* [cite: 591] */
+
+                        // Create gradient for brick
+                        let brickGradient = ctx.createLinearGradient( /* [cite: 591] */
+                            brickX,
+                            brickY,
+                            brickX, /* [cite: 592] */
+                            brickY + BRICK_HEIGHT
+                        ); /* [cite: 592] */
+                        let baseColor = bricks[c][r].color; /* [cite: 593] */
+
+                        // Adjust color based on hit points remaining
+                        const hitRatio = bricks[c][r].status / bricks[c][r].maxHits; /* [cite: 593] */
+                        baseColor = adjustColorBrightness(baseColor, hitRatio * 100); /* [cite: 594] */
+
+                        let lighterColor = lightenColor(baseColor, 30); /* [cite: 594] */
+                        let darkerColor = darkenColor(baseColor, 30); /* [cite: 594] */
+
+                        brickGradient.addColorStop(0, lighterColor); /* [cite: 594] */
+                        brickGradient.addColorStop(1, darkerColor); /* [cite: 594] */
+                        // Draw main brick with rounded corners if supported
+                        ctx.beginPath(); /* [cite: 595] */
+                        if (ctx.roundRect) { /* [cite: 596] */
+                            ctx.roundRect( /* [cite: 596] */
+                                brickX,
+                                brickY,
+                                BRICK_WIDTH, /* [cite: 597] */
+                                BRICK_HEIGHT,
+                                5
+                            ); /* [cite: 598] */
+                        } else { /* [cite: 599] */
+                            ctx.rect( /* [cite: 599] */
+                                brickX,
+                                brickY,
+                                BRICK_WIDTH, /* [cite: 600] */
+                                BRICK_HEIGHT
+                            ); /* [cite: 600] */
+                        } /* [cite: 601] */
+
+                        ctx.fillStyle = brickGradient; /* [cite: 601] */
+                        ctx.fill(); /* [cite: 602] */
+
+                        // Draw brick highlight
+                        ctx.beginPath(); /* [cite: 602] */
+                        if (ctx.roundRect) { /* [cite: 603] */
+                            ctx.roundRect( /* [cite: 603] */
+                                brickX + 3,
+                                brickY + 3,
+                                BRICK_WIDTH - 6, /* [cite: 604] */
+                                BRICK_HEIGHT / 3,
+                                [3, 3, 0, 0] /* [cite: 605] */
+                            ); /* [cite: 605] */
+                        } else { /* [cite: 606] */
+                            ctx.rect( /* [cite: 606] */
+                                brickX + 3,
+                                brickY + 3,
+                                BRICK_WIDTH - 6, /* [cite: 607] */
+                                BRICK_HEIGHT / 3
+                            ); /* [cite: 607] */
+                        } /* [cite: 608] */
+
+                        ctx.fillStyle = "rgba(255, 255, 255, 0.3)"; /* [cite: 608] */
+                        ctx.fill(); /* [cite: 609] */
+
+                        // Brick glow effect
+                        ctx.beginPath(); /* [cite: 609] */
+                        if (ctx.roundRect) { /* [cite: 610] */
+                            ctx.roundRect( /* [cite: 610] */
+                                brickX - 1,
+                                brickY - 1,
+                                BRICK_WIDTH + 2, /* [cite: 611] */
+                                BRICK_HEIGHT + 2,
+                                6 /* [cite: 612] */
+                            ); /* [cite: 612] */
+                        } else { /* [cite: 613] */
+                            ctx.rect( /* [cite: 613] */
+                                brickX - 1,
+                                brickY - 1,
+                                BRICK_WIDTH + 2, /* [cite: 614] */
+                                BRICK_HEIGHT + 2
+                            ); /* [cite: 614] */
+                        } /* [cite: 615] */
+
+                        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)"; /* [cite: 615] */
+                        ctx.lineWidth = 1; /* [cite: 616] */
+                        ctx.stroke(); /* [cite: 616] */
+
+                        // Draw hit points indicator for multi-hit bricks
+                        if (bricks[c][r].maxHits > 1) { /* [cite: 616] */
+                            ctx.font = "bold 16px Arial"; /* [cite: 616] */
+                            ctx.textAlign = "center"; /* [cite: 617] */
+                            ctx.textBaseline = "middle"; /* [cite: 617] */
+                            ctx.fillStyle = "rgba(255, 255, 255, 0.8)"; /* [cite: 617] */
+                            ctx.fillText(bricks[c][r].status, brickX + BRICK_WIDTH/2, brickY + BRICK_HEIGHT/2); /* [cite: 617] */
+                        } /* [cite: 618] */
+                    }
+                }
+            }
+        }
+
+        // Adjust color brightness based on remaining hit points
+        function adjustColorBrightness(hexColor, percent) {
+            // For multi-hit bricks, make them darker as they get hit
+            let r = parseInt(hexColor.substring(1, 3), 16); /* [cite: 619] */
+            let g = parseInt(hexColor.substring(3, 5), 16); /* [cite: 620] */
+            let b = parseInt(hexColor.substring(5, 7), 16); /* [cite: 620] */
+
+            r = Math.round(r * (percent / 100)); /* [cite: 620] */
+            g = Math.round(g * (percent / 100)); /* [cite: 621] */
+            b = Math.round(b * (percent / 100)); /* [cite: 621] */
+            return `#${Math.min(255, r).toString(16).padStart(2, '0')}${Math.min(255, g).toString(16).padStart(2, '0')}${Math.min(255, b).toString(16).padStart(2, '0')}`; /* [cite: 622] */
+        }
+
+        function lightenColor(color, percent) {
+            let r = parseInt(color.substring(1, 3), 16); /* [cite: 622] */
+            let g = parseInt(color.substring(3, 5), 16); /* [cite: 623] */
+            let b = parseInt(color.substring(5, 7), 16); /* [cite: 623] */
+            r = Math.min(255, r + (255 - r) * (percent / 100)); /* [cite: 624] */
+            g = Math.min(255, g + (255 - g) * (percent / 100)); /* [cite: 625] */
+            b = Math.min(255, b + (255 - b) * (percent / 100)); /* [cite: 626] */
+
+            return `#${Math.round(r).toString(16).padStart(2, '0')}${Math.round(g).toString(16).padStart(2, '0')}${Math.round(b).toString(16).padStart(2, '0')}`; /* [cite: 626] */
+        } /* [cite: 627] */
+
+        function darkenColor(color, percent) {
+            let r = parseInt(color.substring(1, 3), 16); /* [cite: 627] */
+            let g = parseInt(color.substring(3, 5), 16); /* [cite: 628] */
+            let b = parseInt(color.substring(5, 7), 16); /* [cite: 628] */
+            r = Math.max(0, r - (r * (percent / 100))); /* [cite: 629] */
+            g = Math.max(0, g - (g * (percent / 100))); /* [cite: 629] */
+            b = Math.max(0, b - (b * (percent / 100))); /* [cite: 630] */
+
+            return `#${Math.round(r).toString(16).padStart(2, '0')}${Math.round(g).toString(16).padStart(2, '0')}${Math.round(b).toString(16).padStart(2, '0')}`; /* [cite: 630] */
+        }
+
+
+        function keyDownHandler(e) {
+            if (e.key === "Right" || e.key === "ArrowRight") { /* [cite: 492] */
+                rightPressed = true; /* [cite: 492] */
+                e.preventDefault(); /* [cite: 493] */
+            } else if (e.key === "Left" || e.key === "ArrowLeft") { /* [cite: 493] */
+                leftPressed = true; /* [cite: 493] */
+                e.preventDefault(); /* [cite: 494] */
+            } else if (e.key === "p" || e.key === "P") { /* [cite: 494] */
+                togglePause(); /* [cite: 494] */
+                e.preventDefault(); /* [cite: 495] */
+            } else if (e.key === "d" || e.key === "D") { /* [cite: 495] */
+                // Toggle debug mode with 'D' key
+                if (DEBUG_MODE && debugPanel) { /* [cite: 495] */
+                    debugPanel.style.display = debugPanel.style.display === "none" ? /* [cite: 495] */
+                                              "block" : "none"; /* [cite: 496] */
+                }
+            } else if (e.key === "m" || e.key === "M") { /* [cite: 496] */
+                toggleMusic(); /* [cite: 496] */
+            } else if (e.key === "s" || e.key === "S") { /* [cite: 497] */
+                toggleSound(); /* [cite: 497] */
+            } else if (e.key === "f" || e.key === "F") { /* [cite: 498] */
+                toggleFullscreen(); /* [cite: 498] */
+            } /* [cite: 499] */
+        }
+
+        function keyUpHandler(e) {
+            if (e.key === "Right" || e.key === "ArrowRight") { /* [cite: 499] */
+                rightPressed = false; /* [cite: 499] */
+            } else if (e.key === "Left" || e.key === "ArrowLeft") { /* [cite: 500] */
+                leftPressed = false; /* [cite: 500] */
+            } /* [cite: 501] */
+        }
+
+        function mouseMoveHandler(e) {
+            if (!gameStarted || gamePaused) return; /* [cite: 501] */
+            let relativeX; /* [cite: 502] */
+
+            // Get the correct mouse position based on the canvas position
+            const rect = canvas.getBoundingClientRect(); /* [cite: 502] */
+            relativeX = e.clientX - rect.left; /* [cite: 503] */
+
+            // Scale the mouse position if the canvas is resized
+            if (canvas.width !== rect.width) { /* [cite: 503] */
+                relativeX = relativeX * (canvas.width / rect.width); /* [cite: 503] */
+            } /* [cite: 504] */
+
+            if (relativeX > 0 && relativeX < canvas.width) { /* [cite: 504] */
+                paddleX = relativeX - PADDLE_WIDTH / 2; /* [cite: 504] */
+                // Keep paddle within canvas
+                if (paddleX < 0) { /* [cite: 505] */
+                    paddleX = 0; /* [cite: 505] */
+                } else if (paddleX + PADDLE_WIDTH > canvas.width) { /* [cite: 506] */
+                    paddleX = canvas.width - PADDLE_WIDTH; /* [cite: 506] */
+                } /* [cite: 507] */
+            }
+        }
+
+        // Add touch event handlers for mobile
+        function setupMobileControls() {
+            const leftBtn = document.getElementById('left-btn'); /* [cite: 507] */
+            const rightBtn = document.getElementById('right-btn'); /* [cite: 508] */
+
+            // Helper function to detect if we're on a mobile device
+            function isMobileDevice() {
+                return (typeof window.orientation !== "undefined") || /* [cite: 508] */
+                       (navigator.userAgent.indexOf('IEMobile') !== -1); /* [cite: 509] */
+            }
+
+            // Show mobile controls if on a mobile device
+            if (isMobileDevice()) { /* [cite: 509] */
+                const mobileControls = document.getElementById('mobile-controls'); /* [cite: 509] */
+                if (mobileControls) { /* [cite: 510] */
+                    mobileControls.style.display = 'flex'; /* [cite: 510] */
+                } /* [cite: 511] */
+
+                // Add touch events for mobile buttons
+                if (leftBtn) { /* [cite: 511] */
+                    // Handle continuous movement on touch
+                    leftBtn.addEventListener('touchstart', function(e) { /* [cite: 512] */
+                        leftPressed = true; /* [cite: 512] */
+                        e.preventDefault(); /* [cite: 512] */
+                    }); /* [cite: 512] */
+                    leftBtn.addEventListener('touchend', function() { /* [cite: 513] */
+                        leftPressed = false; /* [cite: 513] */
+                    }); /* [cite: 513] */
+                } /* [cite: 514] */
+
+                if (rightBtn) { /* [cite: 514] */
+                    rightBtn.addEventListener('touchstart', function(e) { /* [cite: 514] */
+                        rightPressed = true; /* [cite: 514] */
+                        e.preventDefault(); /* [cite: 515] */
+                    }); /* [cite: 515] */
+                    rightBtn.addEventListener('touchend', function() { /* [cite: 516] */
+                        rightPressed = false; /* [cite: 516] */
+                    }); /* [cite: 516] */
+                } /* [cite: 517] */
+            }
+        }
+
+        function togglePause() {
+            if (!gameStarted) return; /* [cite: 517] */
+            gamePaused = !gamePaused; /* [cite: 518] */
+            pauseIndicator.style.display = gamePaused ? "block" : "none"; /* [cite: 518] */
+            if (!gamePaused) { /* [cite: 519] */
+                lastFrameTime = performance.now(); /* [cite: 519] */
+                requestAnimationFrame(draw); /* [cite: 520] */
+                resumeMusic(); /* [cite: 520] */
+                debug("Game unpaused"); /* [cite: 520] */
+            } else {
+                pauseMusic(); /* [cite: 520] */
+                debug("Game paused"); /* [cite: 521] */
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled; /* [cite: 521] */
+            const soundToggle = document.getElementById('toggle-sound'); /* [cite: 522] */
+            if (soundToggle) { /* [cite: 522] */
+                soundToggle.textContent = `Sound: ${soundEnabled ? /* [cite: 522] */
+                                           'ON' : 'OFF'}`; /* [cite: 523] */
+            }
+            debug(`Sound ${soundEnabled ? 'enabled' : 'disabled'}`); /* [cite: 523] */
+        } /* [cite: 524] */
+
+        function toggleMusic() {
+            musicEnabled = !musicEnabled; /* [cite: 524] */
+            const musicToggle = document.getElementById('toggle-music'); /* [cite: 525] */
+            if (musicToggle) { /* [cite: 525] */
+                musicToggle.textContent = `Music: ${musicEnabled ? /* [cite: 525] */
+                                           'ON' : 'OFF'}`; /* [cite: 526] */
+            }
+
+            if (musicEnabled) { /* [cite: 526] */
+                playMusic(); /* [cite: 526] */
+            } else { /* [cite: 527] */
+                stopMusic(); /* [cite: 527] */
+            } /* [cite: 528] */
+
+            debug(`Music ${musicEnabled ? 'enabled' : 'disabled'}`); /* [cite: 528] */
+        } /* [cite: 529] */
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) { /* [cite: 529] */
+                document.documentElement.requestFullscreen().catch(err => { /* [cite: 529] */
+                    debug("Error attempting to enable fullscreen: " + err.message); /* [cite: 529] */
+                });
+            } else { /* [cite: 530] */
+                if (document.exitFullscreen) { /* [cite: 530] */
+                    document.exitFullscreen(); /* [cite: 530] */
+                } /* [cite: 531] */
+            }
+        }
+
+        // Play background music
+        function playMusic() {
+            if (!musicEnabled) return; /* [cite: 531] */
+            try { /* [cite: 532] */
+                if (!backgroundMusic) { /* [cite: 532] */
+                    const AudioContext = window.AudioContext || /* [cite: 532] */
+                                       window.webkitAudioContext; /* [cite: 533] */
+                    const audioCtx = new AudioContext(); /* [cite: 533] */
+
+                    backgroundMusic = { /* [cite: 533] */
+                        context: audioCtx,
+                        oscillator: null,
+                        gain: null,
+                        playing: false /* [cite: 534] */
+                    }; /* [cite: 534] */
+                    // Create a simple ambient background using multiple oscillators
+                    function createAmbience() { /* [cite: 535] */
+                        const oscillator1 = audioCtx.createOscillator(); /* [cite: 535] */
+                        const oscillator2 = audioCtx.createOscillator(); /* [cite: 536] */
+                        const gainNode = audioCtx.createGain(); /* [cite: 536] */
+
+                        oscillator1.type = "sine"; /* [cite: 536] */
+                        oscillator1.frequency.value = 60 + level * 5; /* [cite: 536] */
+                        // Base frequency changes with level
+
+                        oscillator2.type = "sine"; /* [cite: 537] */
+                        oscillator2.frequency.value = 90 + level * 7; /* [cite: 538] */
+
+                        gainNode.gain.value = 0.05; /* [cite: 538] */
+                        // Very quiet background
+
+                        oscillator1.connect(gainNode); /* [cite: 539] */
+                        oscillator2.connect(gainNode); /* [cite: 540] */
+                        gainNode.connect(audioCtx.destination); /* [cite: 540] */
+
+                        oscillator1.start(); /* [cite: 540] */
+                        oscillator2.start(); /* [cite: 540] */
+
+                        backgroundMusic.oscillator = [oscillator1, oscillator2]; /* [cite: 540] */
+                        backgroundMusic.gain = gainNode; /* [cite: 540] */
+                        backgroundMusic.playing = true; /* [cite: 540] */
+                    } /* [cite: 541] */
+
+                    createAmbience(); /* [cite: 541] */
+                } else if (!backgroundMusic.playing) { /* [cite: 542] */
+                    // If we already have a background music object but it's not playing
+                    const oscillator1 = backgroundMusic.context.createOscillator(); /* [cite: 542] */
+                    const oscillator2 = backgroundMusic.context.createOscillator(); /* [cite: 543] */
+                    const gainNode = backgroundMusic.context.createGain(); /* [cite: 543] */
+
+                    oscillator1.type = "sine"; /* [cite: 543] */
+                    oscillator1.frequency.value = 60 + level * 5; /* [cite: 543] */
+                    oscillator2.type = "sine"; /* [cite: 544] */
+                    oscillator2.frequency.value = 90 + level * 7; /* [cite: 544] */
+
+                    gainNode.gain.value = 0.05; /* [cite: 544] */
+
+                    oscillator1.connect(gainNode); /* [cite: 544] */
+                    oscillator2.connect(gainNode); /* [cite: 544] */
+                    gainNode.connect(backgroundMusic.context.destination); /* [cite: 544] */
+
+                    oscillator1.start(); /* [cite: 544] */
+                    oscillator2.start(); /* [cite: 544] */
+                    backgroundMusic.oscillator = [oscillator1, oscillator2]; /* [cite: 545] */
+                    backgroundMusic.gain = gainNode; /* [cite: 545] */
+                    backgroundMusic.playing = true; /* [cite: 545] */
+                } /* [cite: 546] */
+            } catch (e) {
+                debug("Error playing music: " + e.message); /* [cite: 546] */
+            } /* [cite: 547] */
+        }
+
+        function stopMusic() {
+            if (backgroundMusic && backgroundMusic.playing) { /* [cite: 547] */
+                try {
+                    if (backgroundMusic.oscillator) { /* [cite: 547] */
+                        if (Array.isArray(backgroundMusic.oscillator)) { /* [cite: 548] */
+                            backgroundMusic.oscillator.forEach(osc => { /* [cite: 548] */
+                                osc.stop(); /* [cite: 548] */
+                            });
+                        } else { /* [cite: 549] */
+                            backgroundMusic.oscillator.stop(); /* [cite: 549] */
+                        } /* [cite: 550] */
+                    }
+                    backgroundMusic.playing = false; /* [cite: 550] */
+                } catch (e) { /* [cite: 551] */
+                    debug("Error stopping music: " + e.message); /* [cite: 551] */
+                } /* [cite: 552] */
+            }
+        }
+
+        function pauseMusic() {
+            if (backgroundMusic && backgroundMusic.gain) { /* [cite: 552] */
+                try {
+                    backgroundMusic.gain.gain.value = 0; /* [cite: 552] */
+                } catch (e) { /* [cite: 553] */
+                    debug("Error pausing music: " + e.message); /* [cite: 553] */
+                } /* [cite: 554] */
+            }
+        }
+
+        function resumeMusic() {
+            if (musicEnabled && backgroundMusic && backgroundMusic.gain) { /* [cite: 554] */
+                try {
+                    backgroundMusic.gain.gain.value = 0.05; /* [cite: 554] */
+                } catch (e) { /* [cite: 555] */
+                    debug("Error resuming music: " + e.message); /* [cite: 555] */
+                } /* [cite: 556] */
+            }
+        }
+
+
+        function collisionDetection() {
+            // Check each ball for collisions
+            for (let i = 0; i < balls.length; i++) { /* [cite: 107] */
+                let ball = balls[i]; /* [cite: 107] */
+                for (let c = 0; c < BRICK_COLUMNS; c++) { /* [cite: 108] */
+                    for (let r = 0; r < BRICK_ROWS; r++) { /* [cite: 108] */
+                        let b = bricks[c][r]; /* [cite: 108] */
+                        if (b.status > 0) { /* [cite: 109] */
+                            if (
+                                ball.x > b.x - ball.radius && /* [cite: 109] */
+
+                                ball.x < b.x + BRICK_WIDTH + ball.radius && /* [cite: 110] */
+                                ball.y > b.y - ball.radius &&
+                                ball.y < b.y + BRICK_HEIGHT + ball.radius /* [cite: 110] */
+
+                            ) { /* [cite: 111] */
+                                // Calculate exact collision point
+                                let hitLeft = ball.x < b.x; /* [cite: 111] */
+                                let hitRight = ball.x > b.x + BRICK_WIDTH; /* [cite: 112] */
+                                let hitTop = ball.y < b.y; /* [cite: 112] */
+                                let hitBottom = ball.y > b.y + BRICK_HEIGHT; /* [cite: 113] */
+
+                                // Determine bounce direction
+                                if ((hitLeft || hitRight) && !hitTop && !hitBottom) { /* [cite: 113] */
+                                    ball.speedX = -ball.speedX; /* [cite: 113] */
+                                } else { /* [cite: 114] */
+                                    ball.speedY = -ball.speedY; /* [cite: 114] */
+                                } /* [cite: 115] */
+
+                                // Fireball effect - destroy adjacent bricks
+
+                                if (ball.fireball) { /* [cite: 116] */
+                                    applyFireballEffect(ball.x, ball.y); /* [cite: 116] */
+                                } /* [cite: 117] */
+
+                                // Decrease brick hit points
+
+                                b.status--; /* [cite: 118] */
+                                bricksHit++; /* [cite: 118] */
+
+                                // Update score based on brick type
+                                let pointValue = 10 * level; /* [cite: 118] */
+                                if (b.special) { /* [cite: 119] */
+                                    pointValue *= 2; /* [cite: 119] */
+                                    // Double points for special bricks
+                                } /* [cite: 120] */
+
+
+                                // Add combo bonus
+                                if (comboTimer > 0) { /* [cite: 121] */
+                                    combo++; /* [cite: 121] */
+                                    if (combo > maxCombo) { /* [cite: 122] */
+                                        maxCombo = combo; /* [cite: 122] */
+                                    } /* [cite: 123] */
+                                    pointValue *= (1 + combo * 0.1); /* [cite: 123] */
+                                    // 10% bonus per combo level
+
+                                    // Show combo display
+
+                                    comboDisplay.textContent = `Combo x${combo}`; /* [cite: 125] */
+                                    comboDisplay.style.opacity = "1"; /* [cite: 126] */
+                                } else {
+                                    combo = 1; /* [cite: 126] */
+                                    comboDisplay.textContent = `Combo x${combo}`; /* [cite: 127] */
+                                    comboDisplay.style.opacity = "1"; /* [cite: 127] */
+                                }
+
+                                // Reset combo timer
+
+                                comboTimer = 120; /* [cite: 128] */ // 2 seconds at 60fps
+
+                                score += Math.round(pointValue); /* [cite: 128] */
+                                if (scoreDisplay) { /* [cite: 129] */
+                                    scoreDisplay.textContent = `Score: ${score}`; /* [cite: 129] */
+                                } /* [cite: 130] */
+
+                                // Create particles with brick color
+
+                                createParticles(ball.x, ball.y, b.color); /* [cite: 131] */
+
+                                // Chance to create power-up when brick is fully destroyed
+                                if (b.status === 0) { /* [cite: 131] */
+                                    createPowerup(b.x, b.y); /* [cite: 131] */
+                                } /* [cite: 132] */
+
+                                // Add screen flash and shake for special bricks
+
+                                if (b.special && b.status === 0) { /* [cite: 133] */
+                                    flashScreen(); /* [cite: 133] */
+                                    shakeScreen(); /* [cite: 134] */
+                                }
+
+                                playSound('brick'); /* [cite: 134] */
+                                // Increase ball speed slightly as bricks are destroyed
+                                let speedMultiplier = 1 + (bricksHit / totalBricks) * 0.3; /* [cite: 135] */
+                                let maxSpeed = 6 + level; /* [cite: 136] */
+
+                                if (!activePowerupType || activePowerupType !== 'slowBall') { /* [cite: 136] */
+                                    if (ball.speedX > 0) { /* [cite: 136] */
+                                        ball.speedX = Math.min(maxSpeed, 4 * speedMultiplier); /* [cite: 136] */
+                                    } else { /* [cite: 137] */
+                                        ball.speedX = Math.max(-maxSpeed, -4 * speedMultiplier); /* [cite: 137] */
+                                    } /* [cite: 138] */
+
+                                    if (ball.speedY > 0) { /* [cite: 138] */
+
+                                        ball.speedY = Math.min(maxSpeed, 4 * speedMultiplier); /* [cite: 139] */
+                                    } else { /* [cite: 140] */
+                                        ball.speedY = Math.max(-maxSpeed, -4 * speedMultiplier); /* [cite: 140] */
+                                    } /* [cite: 141] */
+                                }
+
+                                // Check if level
+                                is complete /* [cite: 142] */
+                                if (bricksHit === totalBricks) { /* [cite: 142] */
+                                    levelComplete(); /* [cite: 142] */
+                                } /* [cite: 143] */
+
+                                // Only process one collision per frame for this ball
+
+                                return; /* [cite: 144] */
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Particle system
+        function createParticles(x, y, color) { /* [cite: 145] */
+            for (let i = 0; i < 12; i++) { /* [cite: 145] */
+                particles.push({ /* [cite: 145] */
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 8, /* [cite: 146] */
+                    vy: (Math.random() - 0.5) * 8,
+                    radius: Math.random() * 4 + 1,
+                    color: color,
+                    alpha: 1, /* [cite: 147] */
+                    life: Math.random() * 40 + 20
+                }); /* [cite: 147] */
+            } /* [cite: 148] */
+        }
+
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) { /* [cite: 148] */
+                let p = particles[i]; /* [cite: 148] */
+                p.x += p.vx; /* [cite: 149] */
+                p.y += p.vy; /* [cite: 149] */
+                p.vx *= 0.98; // Slight deceleration /* [cite: 149] */
+                p.vy *= 0.98; /* [cite: 149] */
+                p.alpha = p.life / 60; /* [cite: 150] */
+                p.life--; /* [cite: 150] */
+
+                if (p.life <= 0) { /* [cite: 150] */
+                    particles.splice(i, 1); /* [cite: 150] */
+                } /* [cite: 151] */
+            }
+        }
+
+        function drawParticles() {
+            for (let i = 0; i < particles.length; i++) { /* [cite: 151] */
+                let p = particles[i]; /* [cite: 151] */
+                ctx.globalAlpha = p.alpha; /* [cite: 152] */
+                ctx.beginPath(); /* [cite: 152] */
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); /* [cite: 152] */
+                ctx.fillStyle = p.color; /* [cite: 152] */
+                ctx.fill(); /* [cite: 152] */
+                // Add a glow effect to particles
+                ctx.beginPath(); /* [cite: 153] */
+                ctx.arc(p.x, p.y, p.radius + 2, 0, Math.PI * 2); /* [cite: 154] */
+                ctx.strokeStyle = p.color; /* [cite: 154] */
+                ctx.lineWidth = 1; /* [cite: 154] */
+                ctx.stroke(); /* [cite: 154] */
+            } /* [cite: 155] */
+            ctx.globalAlpha = 1; /* [cite: 155] */
+        } /* [cite: 156] */
+
+        // Simple sound system with different sound effects
+        function playSound(type) {
+            if (!soundEnabled) return; /* [cite: 156] */
+            try { /* [cite: 157] */
+                let settings = { /* [cite: 157] */
+                    frequency: 440,
+                    duration: 100,
+                    type: 'sine',
+                    volume: 0.1 /* [cite: 158] */
+                }; /* [cite: 158] */
+                switch(type) { /* [cite: 159] */
+                    case 'paddle':
+                        settings.frequency = 220; /* [cite: 159] */
+                        settings.duration = 100; /* [cite: 160] */
+                        settings.type = 'sine'; /* [cite: 160] */
+                        break;
+                    case 'brick':
+                        settings.frequency = 440; /* [cite: 160] */
+                        settings.duration = 100; /* [cite: 161] */
+                        settings.type = 'square'; /* [cite: 161] */
+                        break;
+                    case 'wall':
+                        settings.frequency = 330; /* [cite: 161] */
+                        settings.duration = 50; /* [cite: 162] */
+                        settings.type = 'sine'; /* [cite: 162] */
+                        break;
+                    case 'death':
+                        settings.frequency = 110; /* [cite: 162] */
+                        settings.duration = 300; /* [cite: 163] */
+                        settings.type = 'sawtooth'; /* [cite: 163] */
+                        settings.volume = 0.2; /* [cite: 163] */
+                        break;
+                    case 'levelComplete': /* [cite: 164] */
+                        settings.frequency = 660; /* [cite: 164] */
+                        settings.duration = 500; /* [cite: 165] */
+                        settings.type = 'sine'; /* [cite: 165] */
+                        settings.volume = 0.2; /* [cite: 165] */
+                        break;
+                    case 'powerup': /* [cite: 166] */
+                        settings.frequency = 880; /* [cite: 166] */
+                        settings.duration = 200; /* [cite: 167] */
+                        settings.type = 'sine'; /* [cite: 167] */
+                        break;
+                    default:
+                        return; /* [cite: 167] */
+                } /* [cite: 168] */
+
+                const AudioContext = window.AudioContext || /* [cite: 168] */
+                                   window.webkitAudioContext; /* [cite: 169] */
+                const context = new AudioContext(); /* [cite: 169] */
+                const oscillator = context.createOscillator(); /* [cite: 169] */
+                const gainNode = context.createGain(); /* [cite: 169] */
+
+                oscillator.connect(gainNode); /* [cite: 169] */
+                gainNode.connect(context.destination); /* [cite: 169] */
+
+                oscillator.type = settings.type; /* [cite: 169] */
+                oscillator.frequency.value = settings.frequency; /* [cite: 170] */
+
+                gainNode.gain.setValueAtTime(settings.volume, context.currentTime); /* [cite: 170] */
+                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + settings.duration / 1000); /* [cite: 170] */
+
+                oscillator.start(); /* [cite: 170] */
+                oscillator.stop(context.currentTime + settings.duration / 1000); /* [cite: 170] */
+            } catch (e) { /* [cite: 171] */
+                // Silently fail if audio context cannot be created
+                debug("Audio not supported: " + e.message); /* [cite: 171] */
+            } /* [cite: 172] */
+        }
+
+        // Screen effects
+        function flashScreen() {
+            if (screenFlash) { /* [cite: 172] */
+                screenFlash.style.opacity = 0.7; /* [cite: 172] */
+                setTimeout(() => { /* [cite: 173] */
+                    screenFlash.style.opacity = 0; /* [cite: 173] */
+                }, 100); /* [cite: 173] */
+            } /* [cite: 174] */
+        }
+
+        function shakeScreen() {
+            const gameContainer = document.getElementById('game-container'); /* [cite: 174] */
+            if (gameContainer && !screenShaking) { /* [cite: 175] */
+                screenShaking = true; /* [cite: 175] */
+                gameContainer.classList.add('shaking'); /* [cite: 176] */
+                setTimeout(() => { /* [cite: 176] */
+                    gameContainer.classList.remove('shaking'); /* [cite: 176] */
+                    screenShaking = false; /* [cite: 176] */
+                }, 500); /* [cite: 176] */
+            } /* [cite: 177] */
+        }
+
+        // Power-ups system with expanded options
+        const POWERUP_TYPES = [ /* [cite: 177] */
+            { type: 'extraLife', color: '#FF5555', text: ' ❤️ ', chance: 0.15 },
+            { type: 'widenPaddle', color: '#55FF55', text: ' ⬅️➡️ ', chance: 0.25 },
+            { type: 'slowBall', color: '#5555FF', text: ' 🐢 ', chance: 0.25 }, /* [cite: 178] */
+            { type: 'multiball', color: '#FFAA00', text: ' 🔄 ', chance: 0.2 },
+            { type: 'fireball', color: '#FF0000', text: ' 🔥 ', chance: 0.15 }
+        ]; /* [cite: 178] */
+        function createPowerup(x, y) { /* [cite: 179] */
+            // Calculate total chance pool
+            let totalChance = 0; /* [cite: 179] */
+            for (let i = 0; i < POWERUP_TYPES.length; i++) { /* [cite: 180] */
+                totalChance += POWERUP_TYPES[i].chance; /* [cite: 180] */
+            } /* [cite: 181] */
+
+            // 40% overall chance to create a power-up when a brick is destroyed
+            // Higher chance in higher levels
+            let powerupChance = 0.3 + (level - 1) * 0.05; /* [cite: 181] */
+            if (Math.random() < powerupChance) { /* [cite: 182] */
+                // Select a random power-up weighted by their chance values
+                let randomValue = Math.random() * totalChance; /* [cite: 182] */
+                let cumulativeChance = 0; /* [cite: 183] */
+                let selectedType = POWERUP_TYPES[0]; /* [cite: 183] */
+
+                for (let i = 0; i < POWERUP_TYPES.length; i++) { /* [cite: 183] */
+                    cumulativeChance += POWERUP_TYPES[i].chance; /* [cite: 183] */
+                    if (randomValue <= cumulativeChance) { /* [cite: 184] */
+                        selectedType = POWERUP_TYPES[i]; /* [cite: 184] */
+                        break; /* [cite: 185] */
+                    }
+                }
+
+                powerups.push({ /* [cite: 185] */
+                    x: x,
+                    y: y,
+                    type: selectedType.type, /* [cite: 186] */
+                    color: selectedType.color,
+                    text: selectedType.text,
+                    width: 30,
+                    height: 30,
+                    speed: 1 + level * 0.3 /* [cite: 187] */
+                }); /* [cite: 187] */
+                debug(`Created ${selectedType.type} powerup`); /* [cite: 188] */
+            }
+        }
+
+        function updatePowerups() {
+            for (let i = powerups.length - 1; i >= 0; i--) { /* [cite: 188] */
+                let p = powerups[i]; /* [cite: 188] */
+                p.y += p.speed; /* [cite: 189] */
+
+                // Check if power-up is caught by paddle
+                if ( /* [cite: 189] */
+                    p.y + p.height > canvas.height - PADDLE_HEIGHT &&
+                    p.y < canvas.height &&
+                    p.x + p.width > paddleX && /* [cite: 190] */
+                    p.x < paddleX + PADDLE_WIDTH
+                ) {
+                    // Activate power-up
+                    activatePowerup(p.type); /* [cite: 190] */
+                    powerups.splice(i, 1); /* [cite: 191] */
+                    playSound('powerup'); /* [cite: 191] */
+                }
+                // Remove if falls below screen
+                else if (p.y > canvas.height) { /* [cite: 191] */
+                    powerups.splice(i, 1); /* [cite: 191] */
+                } /* [cite: 192] */
+            }
+
+            // Handle power-up timer
+            if (powerupActive) { /* [cite: 192] */
+                powerupTimer -= 1; /* [cite: 192] */
+                if (powerupTimer <= 0) { /* [cite: 193] */
+                    deactivatePowerup(); /* [cite: 193] */
+                } /* [cite: 194] */
+            }
+        }
+
+        function activatePowerup(type) {
+            // Deactivate current power-up if there is one
+            if (powerupActive && type !== 'extraLife' && type !== 'multiball') { /* [cite: 194] */
+                deactivatePowerup(); /* [cite: 194] */
+            } /* [cite: 195] */
+
+            powerupActive = true; /* [cite: 195] */
+            activePowerupType = type; /* [cite: 196] */
+            powerupTimer = 600; // 10 seconds at 60fps /* [cite: 196] */
+
+            debug(`Activated ${type} powerup`); /* [cite: 196] */
+            flashScreen(); /* [cite: 197] */
+
+            switch (type) { /* [cite: 197] */
+                case 'extraLife':
+                    lives++; /* [cite: 197] */
+                    if (livesDisplay) { /* [cite: 198] */
+                        livesDisplay.textContent = `Lives: ${lives}`; /* [cite: 198] */
+                    } /* [cite: 199] */
+                    powerupActive = false; /* [cite: 199] */
+                    // This power-up has immediate effect
+                    break; /* [cite: 200] */
+                case 'widenPaddle': /* [cite: 201] */
+                    PADDLE_WIDTH = paddleWidthWide; /* [cite: 201] */
+                    break; /* [cite: 202] */
+
+                case 'slowBall':
+                    // Slow down all balls
+                    for (let i = 0; i < balls.length; i++) { /* [cite: 202] */
+                        let ball = balls[i]; /* [cite: 202] */
+                        let currentSpeedRatio = ball.speedX / Math.abs(ball.speedX); /* [cite: 203] */
+                        ball.speedX = ballSpeedSlow * currentSpeedRatio; /* [cite: 203] */
+
+                        currentSpeedRatio = ball.speedY / Math.abs(ball.speedY); /* [cite: 203] */
+                        ball.speedY = ballSpeedSlow * currentSpeedRatio; /* [cite: 204] */
+                    }
+                    break; /* [cite: 204] */
+                case 'multiball': /* [cite: 205] */
+                    // Add two more balls
+                    if (balls.length < 3) { // Limit to 3 balls max /* [cite: 205] */
+                        const mainBall = balls[0]; /* [cite: 205] */
+                        // Create two new balls at slightly different angles
+                        for (let i = 0; i < 2; i++) { /* [cite: 206] */
+                            let angle = Math.PI * (0.4 + i * 0.2); /* [cite: 206] */
+                            // 40° and 60° angles
+                            let speed = Math.sqrt(mainBall.speedX * mainBall.speedX + mainBall.speedY * mainBall.speedY); /* [cite: 207] */
+                            balls.push({ /* [cite: 208] */
+                                x: mainBall.x,
+                                y: mainBall.y,
+                                speedX: speed * Math.cos(angle) * (i % 2 === 0 ? 1 : -1), /* [cite: 209] */
+                                speedY: -speed * Math.sin(angle),
+                                radius: BALL_RADIUS,
+                                fireball: mainBall.fireball /* [cite: 210] */
+                            }); /* [cite: 210] */
+                        } /* [cite: 211] */
+
+                        multiballActive = true; /* [cite: 211] */
+                    } /* [cite: 212] */
+                    powerupActive = false; /* [cite: 212] */
+                    // This power-up has immediate effect
+                    break; /* [cite: 213] */
+                case 'fireball': /* [cite: 214] */
+                    // Fireball destroys adjacent bricks
+                    // We'll implement this effect in the collision detection
+                    for (let i = 0; i < balls.length; i++) { /* [cite: 214] */
+
+                        balls[i].fireball = true; /* [cite: 215] */
+                    }
+                    break; /* [cite: 215] */
+            } /* [cite: 216] */
+        }
+
+        function deactivatePowerup() {
+            if (!powerupActive) return; /* [cite: 216] */
+            debug(`Deactivated ${activePowerupType} powerup`); /* [cite: 217] */
+            powerupActive = false; /* [cite: 217] */
+
+            switch (activePowerupType) { /* [cite: 217] */
+                case 'widenPaddle':
+                    PADDLE_WIDTH = paddleWidthNormal; /* [cite: 217] */
+                    // Make sure paddle doesn't go out of bounds
+                    if (paddleX + PADDLE_WIDTH > canvas.width) { /* [cite: 218] */
+                        paddleX = canvas.width - PADDLE_WIDTH; /* [cite: 218] */
+                    } /* [cite: 219] */
+                    break;
+                case 'slowBall': /* [cite: 220] */
+                    // Restore normal speed but keep direction for all balls
+                    for (let i = 0; i < balls.length; i++) { /* [cite: 220] */
+                        let ball = balls[i]; /* [cite: 220] */
+                        let currentSpeedRatio = ball.speedX / Math.abs(ball.speedX); /* [cite: 221] */
+                        ball.speedX = ballSpeedNormal * currentSpeedRatio; /* [cite: 221] */
+
+                        currentSpeedRatio = ball.speedY / Math.abs(ball.speedY); /* [cite: 221] */
+                        ball.speedY = ballSpeedNormal * currentSpeedRatio; /* [cite: 222] */
+                    }
+                    break; /* [cite: 222] */
+                case 'fireball': /* [cite: 223] */
+                    // Remove fireball effect from all balls
+                    for (let i = 0; i < balls.length; i++) { /* [cite: 223] */
+                        balls[i].fireball = false; /* [cite: 223] */
+                    } /* [cite: 224] */
+                    break;
+            } /* [cite: 225] */
+
+            activePowerupType = null; /* [cite: 225] */
+        } /* [cite: 226] */
+
+        function drawPowerups() {
+            for (let i = 0; i < powerups.length; i++) { /* [cite: 226] */
+                let p = powerups[i]; /* [cite: 226] */
+                // Draw power-up background
+                ctx.beginPath(); /* [cite: 227] */
+                if (ctx.roundRect) { /* [cite: 228] */
+                    ctx.roundRect(p.x, p.y, p.width, p.height, 5); /* [cite: 228] */
+                } else { /* [cite: 229] */
+                    ctx.rect(p.x, p.y, p.width, p.height); /* [cite: 229] */
+                } /* [cite: 230] */
+                ctx.fillStyle = p.color; /* [cite: 230] */
+                ctx.fill(); /* [cite: 230] */
+                // Draw power-up text/icon
+                ctx.font = '18px Arial'; /* [cite: 231] */
+                ctx.textAlign = 'center'; /* [cite: 232] */
+                ctx.textBaseline = 'middle'; /* [cite: 232] */
+                ctx.fillStyle = 'white'; /* [cite: 232] */
+                ctx.fillText(p.text, p.x + p.width / 2, p.y + p.height / 2); /* [cite: 232] */
+                // Draw a glow effect
+                ctx.beginPath(); /* [cite: 233] */
+                if (ctx.roundRect) { /* [cite: 234] */
+                    ctx.roundRect(p.x - 2, p.y - 2, p.width + 4, p.height + 4, 7); /* [cite: 234] */
+                } else { /* [cite: 235] */
+                    ctx.rect(p.x - 2, p.y - 2, p.width + 4, p.height + 4); /* [cite: 235] */
+                } /* [cite: 236] */
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)'; /* [cite: 236] */
+                ctx.lineWidth = 2; /* [cite: 237] */
+                ctx.stroke(); /* [cite: 237] */
+            }
+
+            // Draw active power-up indicator
+            if (powerupActive) { /* [cite: 237] */
+                let indicator = ''; /* [cite: 237] */
+                let color = 'white'; /* [cite: 238] */
+
+                switch (activePowerupType) { /* [cite: 238] */
+                    case 'widenPaddle':
+                        indicator = ' ⬅️➡️ '; /* [cite: 238] */
+                        color = '#55FF55'; /* [cite: 239] */
+                        break;
+                    case 'slowBall':
+                        indicator = ' 🐢 '; /* [cite: 239] */
+                        color = '#5555FF'; /* [cite: 240] */
+                        break;
+                    case 'fireball':
+                        indicator = ' 🔥 '; /* [cite: 240] */
+                        color = '#FF0000'; /* [cite: 241] */
+                        break;
+                }
+
+                if (indicator) { /* [cite: 241] */
+                    ctx.font = '24px Arial'; /* [cite: 241] */
+                    ctx.textAlign = 'center'; /* [cite: 242] */
+                    ctx.fillStyle = color; /* [cite: 242] */
+                    ctx.fillText(indicator, paddleX + PADDLE_WIDTH / 2, canvas.height - PADDLE_HEIGHT - 15); /* [cite: 242] */
+                    // Draw timer bar
+                    const barWidth = 60; /* [cite: 243] */
+                    const barHeight = 5; /* [cite: 244] */
+                    const x = paddleX + PADDLE_WIDTH / 2 - barWidth / 2; /* [cite: 244] */
+                    const y = canvas.height - PADDLE_HEIGHT - 10; /* [cite: 245] */
+
+                    // Background
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; /* [cite: 245] */
+                    ctx.fillRect(x, y, barWidth, barHeight); /* [cite: 246] */
+
+                    // Fill based on remaining time
+                    ctx.fillStyle = color; /* [cite: 246] */
+                    ctx.fillRect(x, y, barWidth * (powerupTimer / 600), barHeight); /* [cite: 247] */
+                }
+            }
+        }
+
+        // Background with stars
+        function drawBackground() {
+            // Draw a gradient background
+            let bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height); /* [cite: 247] */
+            bgGradient.addColorStop(0, themes[currentTheme].background.start); /* [cite: 248] */
+            bgGradient.addColorStop(1, themes[currentTheme].background.end); /* [cite: 248] */
+
+            ctx.fillStyle = bgGradient; /* [cite: 248] */
+            ctx.fillRect(0, 0, canvas.width, canvas.height); /* [cite: 248] */
+            // Draw stars
+            for (let i = 0; i < stars.length; i++) { /* [cite: 249] */
+                let star = stars[i]; /* [cite: 249] */
+                ctx.beginPath(); /* [cite: 250] */
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2); /* [cite: 250] */
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.brightness})`; /* [cite: 250] */
+                ctx.fill(); /* [cite: 250] */
+            } /* [cite: 251] */
+        }
+
+        function createStars() {
+            stars = []; /* [cite: 251] */
+            for (let i = 0; i < 100; i++) { /* [cite: 252] */
+                stars.push({ /* [cite: 252] */
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5,
+
+                    brightness: Math.random() * 0.5 + 0.5, /* [cite: 253] */
+                    blinkSpeed: Math.random() * 0.05
+                }); /* [cite: 253] */
+            } /* [cite: 254] */
+            debug("Created starry background"); /* [cite: 254] */
+        } /* [cite: 255] */
+
+        function updateStars() {
+            for (let i = 0; i < stars.length; i++) { /* [cite: 255] */
+                let star = stars[i]; /* [cite: 255] */
+                star.brightness += star.blinkSpeed; /* [cite: 256] */
+
+                if (star.brightness > 1 || star.brightness < 0.5) { /* [cite: 256] */
+                    star.blinkSpeed = -star.blinkSpeed; /* [cite: 256] */
+                } /* [cite: 257] */
+            }
+        }
+
+        function draw(timestamp) {
+            if (!gameStarted || gamePaused) return; /* [cite: 257] */
+            // Calculate delta time and FPS
+            if (!lastFrameTime) { /* [cite: 258] */
+                lastFrameTime = timestamp; /* [cite: 258] */
+            } /* [cite: 259] */
+
+            const deltaTime = timestamp - lastFrameTime; /* [cite: 259] */
+            lastFrameTime = timestamp; /* [cite: 260] */
+
+            // Update game time
+            gameTime += deltaTime; /* [cite: 260] */
+            // Calculate FPS
+            frameCount++; /* [cite: 261] */
+            if (timestamp - lastFpsUpdate > 1000) { /* [cite: 262] */
+                fps = Math.round(frameCount * 1000 / (timestamp - lastFpsUpdate)); /* [cite: 262] */
+                lastFpsUpdate = timestamp; /* [cite: 263] */
+                frameCount = 0; /* [cite: 263] */
+                if (fpsDisplay) { /* [cite: 263] */
+                    fpsDisplay.textContent = `FPS: ${fps}`; /* [cite: 263] */
+                } /* [cite: 264] */
+            }
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height); /* [cite: 264] */
+            // Draw background with stars
+            drawBackground(); /* [cite: 265] */
+            updateStars(); /* [cite: 265] */
+            // Draw game elements
+            drawBricks(); /* [cite: 266] */
+            drawBall(); /* [cite: 266] */
+            drawPaddle(); /* [cite: 266] */
+            drawParticles(); /* [cite: 266] */
+            drawPowerups(); /* [cite: 266] */
+            // Update particles and power-ups
+            updateParticles(); /* [cite: 267] */
+            updatePowerups(); /* [cite: 267] */
+            // Decrement combo timer
+            if (comboTimer > 0) { /* [cite: 268] */
+                comboTimer--; /* [cite: 268] */
+                if (comboTimer === 0) { /* [cite: 269] */
+                    combo = 0; /* [cite: 269] */
+                    comboDisplay.style.opacity = "0"; /* [cite: 270] */
+                }
+            }
+
+            // Collision detection
+            collisionDetection(); /* [cite: 270] */
+            // Process each ball
+            for (let i = balls.length - 1; i >= 0; i--) { /* [cite: 271] */
+                let ball = balls[i]; /* [cite: 271] */
+                // Ball and wall collisions
+                if (ball.x + ball.speedX > canvas.width - ball.radius || ball.x + ball.speedX < ball.radius) { /* [cite: 272] */
+                    ball.speedX = -ball.speedX; /* [cite: 272] */
+                    playSound('wall'); /* [cite: 273] */
+                }
+
+                if (ball.y + ball.speedY < ball.radius) { /* [cite: 273] */
+                    ball.speedY = -ball.speedY; /* [cite: 273] */
+                    playSound('wall'); /* [cite: 274] */
+                }
+
+                // Paddle collision
+                if ( /* [cite: 274] */
+                    ball.y + ball.speedY > canvas.height - PADDLE_HEIGHT - ball.radius &&
+
+                    ball.x > paddleX && /* [cite: 275] */
+                    ball.x < paddleX + PADDLE_WIDTH
+                ) {
+                    // Calculate bounce angle based on where ball hits the paddle
+                    let hitPos = (ball.x - (paddleX + PADDLE_WIDTH / 2)) / (PADDLE_WIDTH / 2); /* [cite: 276] */
+                    let bounceAngle = hitPos * Math.PI / 3; /* [cite: 276] */
+                    // Max 60 degrees
+
+                    let speed = Math.sqrt(ball.speedX * ball.speedX + ball.speedY * ball.speedY); /* [cite: 277] */
+                    ball.speedX = speed * Math.sin(bounceAngle); /* [cite: 278] */
+                    ball.speedY = -speed * Math.cos(bounceAngle); /* [cite: 278] */
+
+                    paddleHits++; /* [cite: 278] */
+                    playSound('paddle'); /* [cite: 278] */
+                    createParticles(ball.x, ball.y, themes[currentTheme].particles.paddle); /* [cite: 278] */
+                } /* [cite: 279] */
+
+                // Ball falls below screen
+                if (ball.y + ball.speedY > canvas.height) { /* [cite: 279] */
+                    // Only remove this ball if we have multiple balls
+
+                    if (balls.length > 1) { /* [cite: 280] */
+                        balls.splice(i, 1); /* [cite: 280] */
+                        continue; /* [cite: 281] */
+                    } else { /* [cite: 281] */
+                        // Last ball - lose a life
+                        lives--; /* [cite: 281] */
+                        if (livesDisplay) { /* [cite: 282] */
+                            livesDisplay.textContent = `Lives: ${lives}`; /* [cite: 282] */
+                        } /* [cite: 283] */
+                        playSound('death'); /* [cite: 283] */
+                        flashScreen(); /* [cite: 284] */
+                        shakeScreen(); /* [cite: 284] */
+
+                        if (lives <= 0) { /* [cite: 284] */
+                            gameOver(); /* [cite: 284] */
+                        } else { /* [cite: 285] */
+                            // Reset ball position
+                            ball.x = canvas.width / 2; /* [cite: 285] */
+                            ball.y = canvas.height - PADDLE_HEIGHT - ball.radius - 10; /* [cite: 286] */
+                            ball.speedX = 4 * (Math.random() > 0.5 ? 1 : -1); /* [cite: 286] */
+                            ball.speedY = -4; /* [cite: 287] */
+
+                            // Reset paddle position
+                            paddleX = (canvas.width - PADDLE_WIDTH) / 2; /* [cite: 287] */
+                            // Reset multiball
+                            if (multiballActive) { /* [cite: 288] */
+                                balls = [ball]; /* [cite: 288] */
+                                // Keep only the main ball
+                                multiballActive = false; /* [cite: 289] */
+                            } /* [cite: 290] */
+                        }
+                    }
+                }
+
+                // Update ball position
+
+                ball.x += ball.speedX; /* [cite: 291] */
+                ball.y += ball.speedY; /* [cite: 291] */
+                // Fireball effect - leave a trail of particles
+                if (ball.fireball) { /* [cite: 292] */
+                    createParticles(ball.x, ball.y, '#ff4400'); /* [cite: 292] */
+                } /* [cite: 293] */
+            }
+
+            // Move paddle with keyboard
+            if (rightPressed) { /* [cite: 293] */
+                paddleX += 7; /* [cite: 293] */
+                if (paddleX + PADDLE_WIDTH > canvas.width) { /* [cite: 294] */
+                    paddleX = canvas.width - PADDLE_WIDTH; /* [cite: 294] */
+                } /* [cite: 295] */
+            } else if (leftPressed) { /* [cite: 295] */
+                paddleX -= 7; /* [cite: 295] */
+                if (paddleX < 0) { /* [cite: 296] */
+                    paddleX = 0; /* [cite: 296] */
+                } /* [cite: 297] */
+            }
+
+            // Continue animation
+            requestAnimationFrame(draw); /* [cite: 297] */
+        } /* [cite: 298] */
+
+        function startGame() {
+            debug("Starting game..."); /* [cite: 298] */
+            if (!canvas || !ctx) { /* [cite: 299] */
+                if (!initializeElements()) { /* [cite: 299] */
+                    alert("Could not initialize game elements. Please reload the page."); /* [cite: 299] */
+                    return; /* [cite: 300] */
+                }
+            }
+
+            gameStarted = true; /* [cite: 300] */
+            if (startScreen) { /* [cite: 301] */
+                startScreen.style.display = "none"; /* [cite: 301] */
+            } else { /* [cite: 302] */
+                debug("Warning: Start screen element not found"); /* [cite: 302] */
+            } /* [cite: 303] */
+
+            startTime = performance.now(); /* [cite: 303] */
+            lastFrameTime = performance.now(); /* [cite: 304] */
+
+            // Reset game variables to ensure fresh start
+            score = 0; /* [cite: 304] */
+            lives = 3; /* [cite: 305] */
+            level = 1; /* [cite: 305] */
+            bricksHit = 0; /* [cite: 305] */
+            paddleHits = 0; /* [cite: 305] */
+            combo = 0; /* [cite: 305] */
+            maxCombo = 0; /* [cite: 305] */
+            comboTimer = 0; /* [cite: 306] */
+            particles = []; /* [cite: 306] */
+            powerups = []; /* [cite: 306] */
+
+            if (scoreDisplay) scoreDisplay.textContent = `Score: ${score}`; /* [cite: 306] */
+            if (livesDisplay) livesDisplay.textContent = `Lives: ${lives}`; /* [cite: 307] */
+            if (levelDisplay) levelDisplay.textContent = `Level ${level}`; /* [cite: 307] */
+            // Reset ball and paddle positions
+            ballX = canvas.width / 2; /* [cite: 308] */
+            ballY = canvas.height - PADDLE_HEIGHT - BALL_RADIUS - 10; /* [cite: 309] */
+            ballSpeedX = 4 * (Math.random() > 0.5 ? 1 : -1); /* [cite: 309] */
+            ballSpeedY = -4; /* [cite: 310] */
+            paddleX = (canvas.width - PADDLE_WIDTH) / 2; /* [cite: 310] */
+            // Reset balls array
+            balls = [{ /* [cite: 311] */
+                x: ballX,
+                y: ballY,
+                speedX: ballSpeedX,
+                speedY: ballSpeedY,
+
+                radius: BALL_RADIUS, /* [cite: 312] */
+                fireball: false
+            }]; /* [cite: 312] */
+            multiballActive = false; /* [cite: 313] */
+
+            createBricks(); /* [cite: 313] */
+            playMusic(); /* [cite: 313] */
+
+            // Start the game loop
+            debug("Game started successfully!"); /* [cite: 313] */
+            requestAnimationFrame(draw); /* [cite: 314] */
+        }
+
+        function restartGame() {
+            debug("Restarting game..."); /* [cite: 314] */
+            if (gameOverScreen) { /* [cite: 315] */
+                gameOverScreen.style.display = "none"; /* [cite: 315] */
+            } /* [cite: 316] */
+
+            score = 0; /* [cite: 316] */
+            lives = 3; /* [cite: 317] */
+            level = 1; /* [cite: 317] */
+            bricksHit = 0; /* [cite: 317] */
+            paddleHits = 0; /* [cite: 317] */
+            combo = 0; /* [cite: 317] */
+            maxCombo = 0; /* [cite: 317] */
+            comboTimer = 0; /* [cite: 318] */
+
+            if (scoreDisplay) scoreDisplay.textContent = `Score: ${score}`; /* [cite: 318] */
+            if (livesDisplay) livesDisplay.textContent = `Lives: ${lives}`; /* [cite: 318] */
+            if (levelDisplay) levelDisplay.textContent = `Level ${level}`; /* [cite: 319] */
+            if (comboDisplay) comboDisplay.style.opacity = "0"; /* [cite: 319] */
+            // Reset ball and paddle positions
+            ballX = canvas.width / 2; /* [cite: 320] */
+            ballY = canvas.height - PADDLE_HEIGHT - BALL_RADIUS - 10; /* [cite: 321] */
+            ballSpeedX = 4 * (Math.random() > 0.5 ? 1 : -1); /* [cite: 321] */
+            ballSpeedY = -4; /* [cite: 322] */
+            paddleX = (canvas.width - PADDLE_WIDTH) / 2; /* [cite: 322] */
+            // Reset balls array
+            balls = [{ /* [cite: 323] */
+                x: ballX,
+                y: ballY,
+                speedX: ballSpeedX,
+                speedY: ballSpeedY,
+
+                radius: BALL_RADIUS, /* [cite: 324] */
+                fireball: false
+            }]; /* [cite: 324] */
+            multiballActive = false; /* [cite: 325] */
+
+            // Clear particles & powerups
+            particles = []; /* [cite: 325] */
+            powerups = []; /* [cite: 326] */
+
+            // Reset active powerups
+            if (powerupActive) { /* [cite: 326] */
+                deactivatePowerup(); /* [cite: 326] */
+            } /* [cite: 327] */
+
+            startTime = performance.now(); /* [cite: 327] */
+            gameTime = 0; /* [cite: 328] */
+            createBricks(); /* [cite: 328] */
+            gameStarted = true; /* [cite: 328] */
+            playMusic(); /* [cite: 328] */
+            requestAnimationFrame(draw); /* [cite: 328] */
+        }
+
+        function nextLevel() {
+            debug(`Starting level ${level+1}...`); /* [cite: 1] */
+
+            if (levelCompleteScreen) { /* [cite: 2] */
+                levelCompleteScreen.style.display = "none"; /* [cite: 2] */
+            } /* [cite: 3] */
+
+            level++; /* [cite: 3] */
+            bricksHit = 0; /* [cite: 4] */
+            paddleHits = 0; /* [cite: 4] */
+            combo = 0; /* [cite: 4] */
+            comboTimer = 0; /* [cite: 4] */
+
+            if (levelDisplay) levelDisplay.textContent = `Level ${level}`; /* [cite: 4] */
+            if (comboDisplay) comboDisplay.style.opacity = "0"; /* [cite: 5] */
+
+            // Reset ball and paddle positions
+            ballX = canvas.width / 2; /* [cite: 5] */
+            ballY = canvas.height - PADDLE_HEIGHT - BALL_RADIUS - 10; /* [cite: 6] */
+
+            // Increase base ball speed with level
+            let baseSpeed = 4 + (level - 1) * 0.5; /* [cite: 6] */
+            ballSpeedX = baseSpeed * (Math.random() > 0.5 ? 1 : -1); /* [cite: 7] */
+            ballSpeedY = -baseSpeed; /* [cite: 7] */
+            paddleX = (canvas.width - PADDLE_WIDTH) / 2; /* [cite: 8] */
+
+            // Reset balls array
+            balls = [{ /* [cite: 8] */
+                x: ballX,
+                y: ballY,
+                speedX: ballSpeedX,
+                speedY: ballSpeedY,
+
+                radius: BALL_RADIUS, /* [cite: 9] */
+                fireball: false
+            }];
+            multiballActive = false; /* [cite: 10] */
+
+            // Clear particles & powerups
+            particles = []; /* [cite: 10] */
+            powerups = []; /* [cite: 11] */
+
+            // Reset active powerups
+            if (powerupActive) { /* [cite: 11] */
+                deactivatePowerup(); /* [cite: 11] */
+            } /* [cite: 12] */
+
+            createBricks(); /* [cite: 12] */
+            // Change the music for the new level
+            stopMusic(); /* [cite: 13] */
+            playMusic(); /* [cite: 14] */
+
+            gameStarted = true; /* [cite: 14] */
+            requestAnimationFrame(draw); /* [cite: 14] */
+        }
+
+        function gameOver() {
+            debug("Game over!"); /* [cite: 14] */
+            gameStarted = false; /* [cite: 15] */
+            stopMusic(); /* [cite: 15] */
+
+            if (gameOverScreen) { /* [cite: 15] */
+                gameOverScreen.style.display = "flex"; /* [cite: 15] */
+                // Format game time
+                let totalSeconds = Math.floor(gameTime / 1000); /* [cite: 16] */
+                let minutes = Math.floor(totalSeconds / 60); /* [cite: 17] */
+                let seconds = totalSeconds % 60; /* [cite: 17] */
+                let timeString = `${minutes}m ${seconds}s`; /* [cite: 17] */
+                if (finalScoreDisplay) finalScoreDisplay.textContent = `Final Score: ${score}`; /* [cite: 18] */
+
+                if (gameStatsDisplay) { /* [cite: 18] */
+                    gameStatsDisplay.innerHTML = `
+                        Level: ${level}<br>
+                        Bricks Destroyed: ${bricksHit}<br>
+
+                        Paddle Hits: ${paddleHits}<br> /* [cite: 19] */
+                        Max Combo: x${maxCombo}<br>
+                        Time Played: ${timeString}
+                    `; /* [cite: 19] */
+                } /* [cite: 20] */
+
+                // Check for high score
+                const newHighScoreText = document.getElementById('new-high-score'); /* [cite: 20] */
+                const nameInput = document.getElementById('name-input'); /* [cite: 21] */
+                const saveScoreBtn = document.getElementById('save-score-button'); /* [cite: 21] */
+
+                if (isHighScore(score)) { /* [cite: 21] */
+                    if (newHighScoreText) newHighScoreText.style.display = 'block'; /* [cite: 21] */
+                    if (nameInput) nameInput.style.display = 'block'; /* [cite: 22] */
+                    if (saveScoreBtn) { /* [cite: 22] */
+                        saveScoreBtn.style.display = 'block'; /* [cite: 22] */
+                        saveScoreBtn.onclick = function() { /* [cite: 23] */
+                            const name = nameInput.value.trim() || /* [cite: 23] */
+                                          'Player'; /* [cite: 24] */
+                            addHighScore(name, score, level); /* [cite: 24] */
+
+                            // Hide input elements after saving
+                            newHighScoreText.style.display = 'none'; /* [cite: 24] */
+                            nameInput.style.display = 'none'; /* [cite: 25] */
+                            saveScoreBtn.style.display = 'none'; /* [cite: 25] */
+
+                            // Show updated high scores
+                            displayHighScores(); /* [cite: 25] */
+                            document.getElementById('high-scores').style.display = 'flex'; /* [cite: 26] */
+                            gameOverScreen.style.display = 'none'; /* [cite: 26] */
+                        };
+                    }
+                } else {
+                    if (newHighScoreText) newHighScoreText.style.display = 'none'; /* [cite: 26] */
+                    if (nameInput) nameInput.style.display = 'none'; /* [cite: 27] */
+                    if (saveScoreBtn) saveScoreBtn.style.display = 'none'; /* [cite: 27] */
+                } /* [cite: 28] */
+            } else {
+                debug("Warning: Game over screen element not found"); /* [cite: 28] */
+                alert(`Game Over! Final Score: ${score}`); /* [cite: 29] */
+            }
+        }
+
+        function levelComplete() {
+            debug(`Level ${level} complete!`); /* [cite: 29] */
+            gameStarted = false; /* [cite: 30] */
+            playSound('levelComplete'); /* [cite: 30] */
+
+            if (levelCompleteScreen) { /* [cite: 30] */
+                levelCompleteScreen.style.display = "flex"; /* [cite: 30] */
+                // Format game time for this level
+                let totalSeconds = Math.floor(gameTime / 1000); /* [cite: 31] */
+                let minutes = Math.floor(totalSeconds / 60); /* [cite: 32] */
+                let seconds = totalSeconds % 60; /* [cite: 32] */
+                let timeString = `${minutes}m ${seconds}s`; /* [cite: 32] */
+                // Calculate bonus points based on time, lives, and combo
+                let timeBonus = Math.max(0, 500 - totalSeconds * 2); /* [cite: 33] */
+                let lifeBonus = lives * 100; /* [cite: 34] */
+                let levelBonus = level * 500; /* [cite: 34] */
+                let comboBonus = maxCombo * 50; /* [cite: 34] */
+                let totalBonus = timeBonus + lifeBonus + levelBonus + comboBonus; /* [cite: 35] */
+                score += totalBonus; /* [cite: 35] */
+                if (levelScoreDisplay) { /* [cite: 36] */
+                    levelScoreDisplay.textContent = `Score: ${score} (+${totalBonus} bonus)`; /* [cite: 36] */
+                } /* [cite: 37] */
+
+                if (levelStatsDisplay) { /* [cite: 37] */
+                    levelStatsDisplay.innerHTML = `
+                        Level ${level} Complete!<br>
+
+                        Bricks Destroyed: ${bricksHit}<br> /* [cite: 38] */
+                        Paddle Hits: ${paddleHits}<br>
+                        Max Combo: x${maxCombo}<br>
+                        Lives Remaining: ${lives}<br>
+
+                        Time Bonus: +${timeBonus}<br> /* [cite: 39] */
+                        Lives Bonus: +${lifeBonus}<br>
+                        Level Bonus: +${levelBonus}<br>
+                        Combo Bonus: +${comboBonus}
+
+                    `; /* [cite: 40] */
+                } /* [cite: 41] */
+
+                if (scoreDisplay) { /* [cite: 41] */
+                    scoreDisplay.textContent = `Score: ${score}`; /* [cite: 41] */
+                } /* [cite: 42] */
+            } else {
+                debug("Warning: Level complete screen element not found"); /* [cite: 42] */
+                alert(`Level ${level} Complete! Score: ${score}`); /* [cite: 43] */
+                nextLevel(); /* [cite: 43] */
+            }
+        }
+
+        // Add click event listeners to buttons
+        function setupButtonListeners() {
+            debug("Setting up button listeners..."); /* [cite: 43] */
+            // Start button
+            const startButton = document.getElementById("start-button"); /* [cite: 44] */
+            if (startButton) { /* [cite: 45] */
+                startButton.addEventListener("click", function() { /* [cite: 45] */
+                    debug("Start button clicked"); /* [cite: 45] */
+                    startGame(); /* [cite: 45] */
+                });
+            } else { /* [cite: 46] */
+                debug("Start button not found!"); /* [cite: 46] */
+            } /* [cite: 47] */
+
+            // Restart button
+            const restartButton = document.getElementById("restart-button"); /* [cite: 47] */
+            if (restartButton) { /* [cite: 48] */
+                restartButton.addEventListener("click", function() { /* [cite: 48] */
+                    debug("Restart button clicked"); /* [cite: 48] */
+                    restartGame(); /* [cite: 48] */
+                });
+            } /* [cite: 49] */
+
+            // Next level button
+            const nextLevelButton = document.getElementById("next-level-button"); /* [cite: 49] */
+            if (nextLevelButton) { /* [cite: 50] */
+                nextLevelButton.addEventListener("click", function() { /* [cite: 50] */
+                    debug("Next level button clicked"); /* [cite: 50] */
+                    nextLevel(); /* [cite: 50] */
+                });
+            } /* [cite: 51] */
+
+            // High scores button
+            const highScoresButton = document.getElementById("high-scores-button"); /* [cite: 51] */
+            if (highScoresButton) { /* [cite: 52] */
+                highScoresButton.addEventListener("click", function() { /* [cite: 52] */
+                    debug("High scores button clicked"); /* [cite: 52] */
+                    displayHighScores(); /* [cite: 52] */
+                    document.getElementById("high-scores").style.display = "flex"; /* [cite: 52] */
+
+                    startScreen.style.display = "none"; /* [cite: 53] */
+                });
+            } /* [cite: 54] */
+
+            // Show scores button (from game over)
+            const showScoresButton = document.getElementById("show-scores-button"); /* [cite: 54] */
+            if (showScoresButton) { /* [cite: 55] */
+                showScoresButton.addEventListener("click", function() { /* [cite: 55] */
+                    debug("Show scores button clicked"); /* [cite: 55] */
+                    displayHighScores(); /* [cite: 55] */
+                    document.getElementById("high-scores").style.display = "flex"; /* [cite: 55] */
+
+                    gameOverScreen.style.display = "none"; /* [cite: 56] */
+                });
+            } /* [cite: 57] */
+
+            // Back button (from high scores)
+            const backButton = document.getElementById("back-button"); /* [cite: 57] */
+            if (backButton) { /* [cite: 58] */
+                backButton.addEventListener("click", function() { /* [cite: 58] */
+                    debug("Back button clicked"); /* [cite: 58] */
+                    document.getElementById("high-scores").style.display = "none"; /* [cite: 58] */
+                    startScreen.style.display = "flex"; /* [cite: 58] */
+
+                }); /* [cite: 59] */
+            }
+
+            // Menu button
+            const menuBtn = document.getElementById("menu-btn"); /* [cite: 59] */
+            const gameMenu = document.getElementById("game-menu"); /* [cite: 60] */
+            if (menuBtn && gameMenu) { /* [cite: 60] */
+                menuBtn.addEventListener("click", function() { /* [cite: 60] */
+                    if (gameMenu.style.display === "block") { /* [cite: 60] */
+                        gameMenu.style.display = "none"; /* [cite: 60] */
+                    } else {
+
+                        gameMenu.style.display = "block"; /* [cite: 61] */
+                    }
+                });
+                // Menu items
+                const toggleSoundBtn = document.getElementById("toggle-sound"); /* [cite: 62] */
+                if (toggleSoundBtn) { /* [cite: 63] */
+                    toggleSoundBtn.addEventListener("click", function() { /* [cite: 63] */
+                        toggleSound(); /* [cite: 63] */
+                        gameMenu.style.display = "none"; /* [cite: 63] */
+                    });
+                } /* [cite: 64] */
+
+                const toggleMusicBtn = document.getElementById("toggle-music"); /* [cite: 64] */
+                if (toggleMusicBtn) { /* [cite: 65] */
+                    toggleMusicBtn.addEventListener("click", function() { /* [cite: 65] */
+                        toggleMusic(); /* [cite: 65] */
+                        gameMenu.style.display = "none"; /* [cite: 65] */
+                    });
+                } /* [cite: 66] */
+
+                const showHighScores = document.getElementById("show-high-scores"); /* [cite: 66] */
+                if (showHighScores) { /* [cite: 67] */
+                    showHighScores.addEventListener("click", function() { /* [cite: 67] */
+                        displayHighScores(); /* [cite: 67] */
+                        document.getElementById("high-scores").style.display = "flex"; /* [cite: 67] */
+                        gameMenu.style.display = "none"; /* [cite: 68] */
+
+                        if (gameStarted) { /* [cite: 68] */
+                            togglePause(); /* [cite: 68] */
+
+                        } /* [cite: 69] */
+                    });
+                } /* [cite: 70] */
+
+                const toggleFullscreenBtn = document.getElementById("toggle-fullscreen"); /* [cite: 70] */
+                if (toggleFullscreenBtn) { /* [cite: 71] */
+                    toggleFullscreenBtn.addEventListener("click", function() { /* [cite: 71] */
+                        toggleFullscreen(); /* [cite: 71] */
+                        gameMenu.style.display = "none"; /* [cite: 71] */
+                    });
+                } /* [cite: 72] */
+
+                const restartFromMenu = document.getElementById("restart-from-menu"); /* [cite: 72] */
+                if (restartFromMenu) { /* [cite: 73] */
+                    restartFromMenu.addEventListener("click", function() { /* [cite: 73] */
+                        gameMenu.style.display = "none"; /* [cite: 73] */
+                        if (gameStarted) { /* [cite: 73] */
+
+                            restartGame(); /* [cite: 74] */
+                        } else {
+                            startGame(); /* [cite: 74] */
+                        }
+
+                    }); /* [cite: 75] */
+                }
+            }
+
+            // Theme selectors
+            const standardTheme = document.getElementById("standard-theme"); /* [cite: 75] */
+            const neonTheme = document.getElementById("neon-theme"); /* [cite: 76] */
+            const retroTheme = document.getElementById("retro-theme"); /* [cite: 76] */
+
+            if (standardTheme && neonTheme && retroTheme) { /* [cite: 76] */
+                standardTheme.addEventListener("click", function() { /* [cite: 76] */
+                    setTheme('standard'); /* [cite: 76] */
+                });
+                neonTheme.addEventListener("click", function() { /* [cite: 77] */
+                    setTheme('neon'); /* [cite: 77] */
+                });
+                retroTheme.addEventListener("click", function() { /* [cite: 78] */
+                    setTheme('retro'); /* [cite: 78] */
+                });
+            } /* [cite: 79] */
+        }
+
+        // Set theme
+        function setTheme(theme) {
+            currentTheme = theme; /* [cite: 79] */
+            document.querySelectorAll('.theme-btn').forEach(btn => { /* [cite: 80] */
+                btn.classList.remove('active'); /* [cite: 80] */
+            });
+            document.getElementById(`${theme}-theme`).classList.add('active'); /* [cite: 81] */
+
+            // Update the start screen background color
+            if (startScreen) { /* [cite: 81] */
+                startScreen.style.backgroundColor = themes[theme].screen.bg; /* [cite: 81] */
+            } /* [cite: 82] */
+
+            debug(`Theme changed to: ${theme}`); /* [cite: 82] */
+        } /* [cite: 83] */
+
+        // Handle window resize
+        function handleResize() {
+            // Keep the canvas centered
+            if (canvas) { /* [cite: 83] */
+                if (window.innerWidth < canvas.width || window.innerHeight < canvas.height) { /* [cite: 83] */
+
+                    canvas.style.width = '90vw'; /* [cite: 84] */
+                    canvas.style.height = 'auto'; /* [cite: 84] */
+                    debug("Canvas resized to fit window"); /* [cite: 84] */
+                } else { /* [cite: 85] */
+                    canvas.style.width = ''; /* [cite: 85] */
+                    canvas.style.height = ''; /* [cite: 86] */
+                }
+            }
+        }
+
+        // Initialize game on page load
+        window.addEventListener("load", function() { /* [cite: 86] */
+            debug("Page loaded, initializing game..."); /* [cite: 86] */
+
+            // Load high scores
+
+            loadHighScores(); /* [cite: 87] */
+
+            // Initialize game elements
+            if (initializeElements()) { /* [cite: 87] */
+                // Create starry background
+                createStars(); /* [cite: 87] */
+
+
+                // Set up button listeners
+                setupButtonListeners(); /* [cite: 88] */
+
+                // Set up mobile controls
+                setupMobileControls(); /* [cite: 88] */
+
+
+                // Add event listeners for keyboard and mouse
+                document.addEventListener("keydown", keyDownHandler, false); /* [cite: 89] */
+                document.addEventListener("keyup", keyUpHandler, false); /* [cite: 89] */
+                document.addEventListener("mousemove", mouseMoveHandler, false); /* [cite: 89] */
+
+
+                // Handle window resize
+                window.addEventListener('resize', handleResize); /* [cite: 90] */
+                handleResize(); /* [cite: 91] */
+
+                // Set initial theme
+                setTheme(currentTheme); /* [cite: 91] */
+                debug("Game loaded and ready to start!"); /* [cite: 92] */
+            } else {
+                console.error("Failed to initialize game!"); /* [cite: 92] */
+            } /* [cite: 93] */
+        });
+
+        // Add a fail-safe direct click handler for buttons
+        document.addEventListener("click", function(e) { /* [cite: 93] */
+            if (e.target && e.target.id === "start-button") { /* [cite: 93] */
+                debug("Start button clicked via global handler"); /* [cite: 93] */
+                startGame(); /* [cite: 93] */
+            } else if (e.target && e.target.id === "restart-button") { /* [cite: 94] */
+                debug("Restart button clicked via global handler"); /* [cite: 94] */
+                restartGame(); /* [cite: 94] */
+            } else if (e.target && e.target.id === "next-level-button") { /* [cite: 94] */
+                debug("Next level button clicked via global handler"); /* [cite: 94] */
+                nextLevel(); /* [cite: 94] */
+
+            } /* [cite: 95] */
+        });
+        // Fireball effect - destroy adjacent bricks
+        function applyFireballEffect(x, y) { /* [cite: 96] */
+            // Check nearby bricks in a small radius
+            const radius = 50; /* [cite: 96] */
+            // pixels
+
+            for (let c = 0; c < BRICK_COLUMNS; c++) { /* [cite: 97] */
+                for (let r = 0; r < BRICK_ROWS; r++) { /* [cite: 97] */
+                    let b = bricks[c][r]; /* [cite: 97] */
+                    if (b.status > 0) { /* [cite: 98] */
+                        // Calculate center of brick
+                        const brickCenterX = b.x + BRICK_WIDTH / 2; /* [cite: 98] */
+                        const brickCenterY = b.y + BRICK_HEIGHT / 2; /* [cite: 99] */
+
+                        // Calculate distance between ball and brick center
+                        const distance = Math.sqrt(Math.pow(x - brickCenterX, 2) + Math.pow(y - brickCenterY, 2)); /* [cite: 99] */
+                        // If brick is within radius, destroy it
+                        if (distance < radius) { /* [cite: 100] */
+                            // Add score for destroyed brick
+                            let pointValue = 5 * level; /* [cite: 101] */ // Half points for area effect
+                            score += Math.round(pointValue); /* [cite: 101] */
+                            if (scoreDisplay) { /* [cite: 102] */
+                                scoreDisplay.textContent = `Score: ${score}`; /* [cite: 102] */
+                            } /* [cite: 103] */
+
+                            // Create particles
+                            createParticles(brickCenterX, brickCenterY, b.color); /* [cite: 103] */
+                            // Destroy the brick
+                            let hitPoints = b.status; /* [cite: 104] */
+                            b.status = 0; /* [cite: 105] */
+                            bricksHit += hitPoints; /* [cite: 105] */
+                        }
+                    }
+                }
+            }
+
+            // Check if level is complete
+            if (bricksHit >= totalBricks) { /* [cite: 105] */
+
+                levelComplete(); /* [cite: 106] */
+            } /* [cite: 107] */
+        }
+    </script>
 </body>
 </html>
