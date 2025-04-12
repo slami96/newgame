@@ -2581,40 +2581,30 @@
             } /* [cite: 95] */
         });
         // Fireball effect - destroy adjacent bricks
-        function applyFireballEffect(x, y) { /* [cite: 96] */
-            // Check nearby bricks in a small radius
-            const radius = 50; /* [cite: 96] */
-            // pixels
-
-            for (let c = 0; c < BRICK_COLUMNS; c++) { /* [cite: 97] */
-                for (let r = 0; r < BRICK_ROWS; r++) { /* [cite: 97] */
-                    let b = bricks[c][r]; /* [cite: 97] */
-                    if (b.status > 0) { /* [cite: 98] */
-                        // Calculate center of brick
-                        const brickCenterX = b.x + BRICK_WIDTH / 2; /* [cite: 98] */
-                        const brickCenterY = b.y + BRICK_HEIGHT / 2; /* [cite: 99] */
-
-                        // Calculate distance between ball and brick center
-                        const distance = Math.sqrt(Math.pow(x - brickCenterX, 2) + Math.pow(y - brickCenterY, 2)); /* [cite: 99] */
-                        // If brick is within radius, destroy it
-                        if (distance < radius) { /* [cite: 100] */
-                            // Add score for destroyed brick
-                            let pointValue = 5 * level; /* [cite: 101] */ // Half points for area effect
-                            score += Math.round(pointValue); /* [cite: 101] */
-                            if (scoreDisplay) { /* [cite: 102] */
-                                scoreDisplay.textContent = `Score: ${score}`; /* [cite: 102] */
-                            } /* [cite: 103] */
-
-                            // Create particles
-                            createParticles(brickCenterX, brickCenterY, b.color); /* [cite: 103] */
-                            // Destroy the brick
-                            let hitPoints = b.status; /* [cite: 104] */
-                            b.status = 0; /* [cite: 105] */
-                            bricksHit += hitPoints; /* [cite: 105] */
-       
-            // Check if level is complete
-            if (bricksHit >= totalBricks) { /* [cite: 105] */
-if (bricksHit >= totalBricks) {
+        function applyFireballEffect(x, y) {
+    const radius = 50;
+    
+    for (let c = 0; c < BRICK_COLUMNS; c++) {
+        for (let r = 0; r < BRICK_ROWS; r++) {
+            let b = bricks[c][r];
+            if (b.status > 0) {
+                const brickCenterX = b.x + BRICK_WIDTH / 2;
+                const brickCenterY = b.y + BRICK_HEIGHT / 2;
+                
+                const distance = Math.sqrt(Math.pow(x - brickCenterX, 2) + Math.pow(y - brickCenterY, 2));
+                if (distance < radius) {
+                    let pointValue = 5 * level;
+                    score += Math.round(pointValue);
+                    if (scoreDisplay) {
+                        scoreDisplay.textContent = `Score: ${score}`;
+                    }
+                    
+                    createParticles(brickCenterX, brickCenterY, b.color);
+                    let hitPoints = b.status;
+                    b.status = 0;
+                    bricksHit += hitPoints;
+                    
+                    if (bricksHit >= totalBricks) {
                         levelComplete();
                     }
                     // Missing closing brace for the if (distance < radius) block
