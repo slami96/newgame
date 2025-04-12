@@ -1459,15 +1459,16 @@
                                     } /* [cite: 141] */
                                 }
 
-                                // Check if level
-                                is complete /* [cite: 142] */
-                                if (bricksHit === totalBricks) { /* [cite: 142] */
-                                    levelComplete(); /* [cite: 142] */
-                                } /* [cite: 143] */
+                              // Check if level is complete /* cite: 142 */
+                if (bricksHit === totalBricks) { /* cite: 142 */
+                    levelComplete();
+                } /* cite: 143 */
 
-                                // Only process one collision per frame for this ball
-
-                                return; /* [cite: 144] */
+                // Only process one collision per frame for this ball
+                return; /* cite: 144 */
+            } // End of brick collision check
+        }     // End of loop through balls
+    }         // End of collisionDetection function
                             }
                         }
                     }
